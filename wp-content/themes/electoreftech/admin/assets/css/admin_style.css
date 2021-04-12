@@ -1,0 +1,8 @@
+td.featured_image.column-featured_image img {
+    width: 70px;
+    max-height: 70px;
+    display: inline-block;
+    vertical-align: middle;
+    padding: 2px;
+    border: 2px #ded8d8 solid;
+}

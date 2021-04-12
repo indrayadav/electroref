@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack:///external \"wp\"","webpack:///external \"jQuery\"","webpack:///external \"SUI\""],"names":["module","exports","wp","jQuery","SUI"],"mappings":"0EAAAA,EAAOC,QAAUC,I,gBCAjBF,EAAOC,QAAUE,Q,gBCAjBH,EAAOC,QAAUG,M","file":"wds-schema-types.js","sourcesContent":["module.exports = wp;","module.exports = jQuery;","module.exports = SUI;"],"sourceRoot":""}
