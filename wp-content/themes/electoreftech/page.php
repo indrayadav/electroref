@@ -13,42 +13,26 @@
  */
 
 get_header();
-
-while ( have_posts() ) :
-	the_post();
-
-	$banner_img = get_template_directory_uri(). '/img/page_banner.jpg';
-	$electroref_page_banner = get_post_meta(get_the_ID(), 'electroref_page_banner', true);
-
-	if(isset($electroref_page_banner) && !empty($electroref_page_banner)){
-		$banner_img = $electroref_page_banner;
-	}
 ?>
 
-<div class="breadcrumb-banner-area ptb-120 bg-opacity" style="background-image:url(<?php echo $banner_img; ?>)">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-12">
-						<div class="breadcrumb-text text-center">
-						<h2><?php echo get_the_title(); ?></h2>
-							<?php 
-							if ( function_exists( 'electoreftech_breadcrumbs' ) ) {
-								electoreftech_breadcrumbs();
-							}
-							?>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- breadcrumb-banner-area-end -->
-		<!-- Our-Services-area-start -->
-		<div class="Our-Services-area pt-120 pb-65">
-			<div class="container">
-				<div class="section-info text-center mb-60">
-					<?php the_content(); ?>
-				</div>
-			</div>
-		</div>
-<?php 		endwhile; // End of the loop.
+	<main id="primary" class="site-main">
+
+		<?php
+		while ( have_posts() ) :
+			the_post();
+
+			get_template_part( 'template-parts/content', 'page' );
+
+			// If comments are open or we have at least one comment, load up the comment template.
+			if ( comments_open() || get_comments_number() ) :
+				comments_template();
+			endif;
+
+		endwhile; // End of the loop.
+		?>
+
+	</main><!-- #main -->
+
+<?php
+get_sidebar();
 get_footer();

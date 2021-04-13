@@ -23,20 +23,7 @@ function product_post_meta() {
             ),
     ) );
 
-    $cmb_product->add_field( array(
-      'name'     => esc_html__( 'Test Taxonomy Radio', 'cmb2' ),
-      'desc'     => esc_html__( 'field description (optional)', 'cmb2' ),
-      'id'       => 'yourprefix_demo_text_taxonomy_radio',
-      'type'     => 'taxonomy_radio', // Or `taxonomy_radio_inline`/`taxonomy_radio_hierarchical`
-      'taxonomy' => 'brand', // Taxonomy Slug
-      // 'inline'  => true, // Toggles display to inline
-      // Optionally override the args sent to the WordPress get_terms function.
-      'query_args' => array(
-        // 'orderby' => 'slug',
-        // 'hide_empty' => true,
-      ),
-    ) );
-
+   
     $cmb_product->add_field( array(
       'name'             => esc_html__( 'Product Stock', 'cmb2' ),
       'desc'             => esc_html__( 'Select product stock', 'cmb2' ),
@@ -71,9 +58,16 @@ function product_post_meta() {
     ) );
     
     $cmb_product->add_field( array(
-      'name' => esc_html__( 'Offer Price', 'cmb2' ),
-      'desc' => esc_html__( 'Add offer product price (NPR)', 'cmb2' ),
+      'name' => esc_html__( 'Sale Price', 'cmb2' ),
+      'desc' => esc_html__( 'Add sale product price (NPR)', 'cmb2' ),
       'id'   => $prefix . 'sale_price',
+      'type' => 'text',
+    ) );
+
+    $cmb_product->add_field( array(
+      'name' => esc_html__( 'Offer Tag', 'cmb2' ),
+      'desc' => esc_html__( 'Add offer tag', 'cmb2' ),
+      'id'   => $prefix . 'offer_tag',
       'type' => 'text',
     ) );
     
@@ -92,14 +86,6 @@ function product_post_meta() {
 		'type' => 'text_date',
 		// 'date_format' => 'Y-m-d',
 	) );
-	
-	$cmb_product->add_field( array(
-		'name' => esc_html__( 'Test Date Picker', 'cmb2' ),
-		'desc' => esc_html__( 'Choose offer start date (optional)', 'cmb2' ),
-		'id'   => $prefix . 'offer_start_date',
-		'type' => 'text_date',
-		// 'date_format' => 'Y-m-d',
-  ) );
   
   $cmb_product->add_field( array(
 		'name' => esc_html__( 'Warranty', 'cmb2' ),

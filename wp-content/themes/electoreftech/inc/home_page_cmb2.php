@@ -43,9 +43,9 @@ function electroreftech_page_metabox() {
 	) );
 
 	$wwd_group->add_group_field( $wwd_group_id, array(
-		'name'       => esc_html__( 'Entry Icon', 'cmb2' ),
-		'id'         => 'icon',
-		'type'       => 'text',		
+		'name'       => esc_html__( 'URL', 'cmb2' ),
+		'id'         => 'url',
+		'type'       => 'text_url',		
 	) );
 
 	$wwd_group->add_group_field( $wwd_group_id, array(
@@ -88,12 +88,17 @@ function electroreftech_page_metabox() {
 	) );
 
 	$wcs_group->add_group_field( $wcs_group_id, array(
-		'name'       => esc_html__( 'Client name', 'cmb2' ),
+		'name'       => esc_html__( 'Customer name', 'cmb2' ),
 		'id'         => 'name',
 		'type'       => 'text',		
 	) );
 
-	
+	$wcs_group->add_group_field( $wcs_group_id, array(
+		'name'       => esc_html__( 'Customer Position', 'cmb2' ),
+		'id'         => 'position',
+		'type'       => 'text',		
+	) );
+
 
 	$wcs_group->add_group_field( $wcs_group_id, array(
 		'name'        => esc_html__( 'Thoughts', 'cmb2' ),

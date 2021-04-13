@@ -225,12 +225,12 @@ if ( ! function_exists( 'electoreftech_product_price' ) ) {
         $product_sale_price = get_post_meta($post_id, 'product_sale_price', true);
         
         if(!empty($product_sale_price )){
-            $price_format .= '<div class="PriceName">';
+            $price_format .= '<div class="priceproddel">';
             $price_format .= 'NRs '.number_format($product_sale_price ,2);
-            $price_format .= '<strike>NRs '.number_format($product_price ,2) .'</strike>';
+            $price_format .= '<span>NRs '.number_format($product_price ,2) .'</span>';
             $price_format .= '</div>';
         } else{
-            $price_format .= '<div class="PriceName">';
+            $price_format .= '<div class="priceproddel">';
             $price_format .= ' NRs '.number_format($product_price ,2);
             $price_format .= '</div>';
         }
@@ -448,4 +448,50 @@ function hytteguiden_admin_script() {
 
 }
 add_action( 'admin_enqueue_scripts', 'hytteguiden_admin_script' );
+
+/* Product rating 
+----------------------- */
+if ( ! function_exists( 'electoreftech_product_rating' ) ) {
+	function electoreftech_product_rating($post_id) {
+        $content = '';
+
+        $content .= '<div class="prodrating">
+        <ul>
+            <li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
+            <li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
+            <li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
+            <li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
+            <li><a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a></li>
+        </ul>
+    </div>';
+
+    return $content;
+    }
+}
+
+/* Product Offer Tag 
+----------------------- */ 
+if ( ! function_exists( 'electoreftech_product_offer_tag' ) ) {
+	function electoreftech_product_offer_tag($post_id) {
+        $content = '';
+        $product_offer_tag = get_post_meta($post_id, 'product_offer_tag', true);
+
+        if(isset($product_offer_tag) && !empty($product_offer_tag)){
+            $product_offer_start_date = get_post_meta($post_id, 'product_offer_start_date', true);
+            $product_offer_end_date = get_post_meta($post_id, 'product_offer_end_date', true);
+
+            $stratDate = date('Y-m-d', strtotime($product_offer_start_date));
+            $endDate = date('Y-m-d', strtotime($product_offer_end_date));
+
+
+            if ((date('Y-m-d', time()) >= $stratDate) && (date('Y-m-d', time()) <= $endDate)){
+                $content .= '<span class="productsale">'. $product_offer_tag.'</span>';
+            }
+
+        }
+
+        
+        return $content;
+    }
+}
 ?>

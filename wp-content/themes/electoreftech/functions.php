@@ -7,6 +7,11 @@
  * @package Electoreftech
  */
 
+if ( ! defined( '_S_VERSION' ) ) {
+	// Replace the version number of the theme on each release.
+	define( '_S_VERSION', '1.0.0' );
+}
+
 if ( ! function_exists( 'electoreftech_setup' ) ) :
 	/**
 	 * Sets up theme defaults and registers support for various WordPress features.
@@ -42,30 +47,41 @@ if ( ! function_exists( 'electoreftech_setup' ) ) :
 		 */
 		add_theme_support( 'post-thumbnails' );
 
-		add_image_size( 'homepage-thumb', 370, 245, true );
-
 		// This theme uses wp_nav_menu() in one location.
-		register_nav_menus( array(
-			'menu-1' => esc_html__( 'Primary', 'electoreftech' ),
-		) );
+		register_nav_menus(
+			array(
+				'menu-1' => esc_html__( 'Primary', 'electoreftech' ),
+			)
+		);
 
 		/*
 		 * Switch default core markup for search form, comment form, and comments
 		 * to output valid HTML5.
 		 */
-		add_theme_support( 'html5', array(
-			'search-form',
-			'comment-form',
-			'comment-list',
-			'gallery',
-			'caption',
-		) );
+		add_theme_support(
+			'html5',
+			array(
+				'search-form',
+				'comment-form',
+				'comment-list',
+				'gallery',
+				'caption',
+				'style',
+				'script',
+			)
+		);
 
 		// Set up the WordPress core custom background feature.
-		add_theme_support( 'custom-background', apply_filters( 'electoreftech_custom_background_args', array(
-			'default-color' => 'ffffff',
-			'default-image' => '',
-		) ) );
+		add_theme_support(
+			'custom-background',
+			apply_filters(
+				'electoreftech_custom_background_args',
+				array(
+					'default-color' => 'ffffff',
+					'default-image' => '',
+				)
+			)
+		);
 
 		// Add theme support for selective refresh for widgets.
 		add_theme_support( 'customize-selective-refresh-widgets' );
@@ -75,12 +91,15 @@ if ( ! function_exists( 'electoreftech_setup' ) ) :
 		 *
 		 * @link https://codex.wordpress.org/Theme_Logo
 		 */
-		add_theme_support( 'custom-logo', array(
-			'height'      => 250,
-			'width'       => 250,
-			'flex-width'  => true,
-			'flex-height' => true,
-		) );
+		add_theme_support(
+			'custom-logo',
+			array(
+				'height'      => 250,
+				'width'       => 250,
+				'flex-width'  => true,
+				'flex-height' => true,
+			)
+		);
 	}
 endif;
 add_action( 'after_setup_theme', 'electoreftech_setup' );
@@ -93,9 +112,6 @@ add_action( 'after_setup_theme', 'electoreftech_setup' );
  * @global int $content_width
  */
 function electoreftech_content_width() {
-	// This variable is intended to be overruled from themes.
-	// Open WPCS issue: {@link https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/issues/1043}.
-	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 	$GLOBALS['content_width'] = apply_filters( 'electoreftech_content_width', 640 );
 }
 add_action( 'after_setup_theme', 'electoreftech_content_width', 0 );
@@ -106,15 +122,17 @@ add_action( 'after_setup_theme', 'electoreftech_content_width', 0 );
  * @link https://developer.wordpress.org/themes/functionality/sidebars/#registering-a-sidebar
  */
 function electoreftech_widgets_init() {
-	register_sidebar( array(
-		'name'          => esc_html__( 'Sidebar', 'electoreftech' ),
-		'id'            => 'sidebar-1',
-		'description'   => esc_html__( 'Add widgets here.', 'electoreftech' ),
-		'before_widget' => '<div id="%1$s" class="widget mb-60 %2$s">',
-		'after_widget'  => '</div>',
-		'before_title'  => '<h6 class="widget-title">',
-		'after_title'   => '</h6>',
-	) );
+	register_sidebar(
+		array(
+			'name'          => esc_html__( 'Sidebar', 'electoreftech' ),
+			'id'            => 'sidebar-1',
+			'description'   => esc_html__( 'Add widgets here.', 'electoreftech' ),
+			'before_widget' => '<section id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</section>',
+			'before_title'  => '<h2 class="widget-title">',
+			'after_title'   => '</h2>',
+		)
+	);
 }
 add_action( 'widgets_init', 'electoreftech_widgets_init' );
 
@@ -122,77 +140,19 @@ add_action( 'widgets_init', 'electoreftech_widgets_init' );
  * Enqueue scripts and styles.
  */
 function electoreftech_scripts() {
-	wp_enqueue_style( 'electoreftech-bootstrap', get_template_directory_uri() . '/assets/css/bootstrap.min.css', '20151215' );
-	wp_enqueue_style( 'electoreftech-magnific', get_template_directory_uri() . '/assets/css/magnific-popup.css', '20151215' );
-	wp_enqueue_style( 'electoreftech-carousel', get_template_directory_uri() . '/assets/css/owl.carousel.min.css', '20151215' );
-	wp_enqueue_style( 'electoreftech-awesome', get_template_directory_uri() . '/assets/css/font-awesome.min.css', '20151215' );
-	wp_enqueue_style( 'electoreftech-flaticon', get_template_directory_uri() . '/assets/css/flaticon.css', '20151215' );
-	wp_enqueue_style( 'electoreftech-ionicons', get_template_directory_uri() . '/assets/css/ionicons.min.css', '20151215' );
-	wp_enqueue_style( 'electoreftech-headline', get_template_directory_uri() . '/assets/css/headline.css', '20151215' );
-	wp_enqueue_style( 'electoreftech-navigation', get_template_directory_uri() . '/assets/css/animate.min.css', '20151215' );
-	wp_enqueue_style( 'electoreftech-material', get_template_directory_uri() . '/assets/css/material-design-iconic-font.min.css', '20151215' );
-	wp_enqueue_style( 'electoreftech-meanmenu', get_template_directory_uri() . '/assets/css/meanmenu.css', '20151215' );
-	wp_enqueue_style( 'electoreftech-stroke', get_template_directory_uri() . '/assets/css/Pe-icon-7-stroke.css', '20151215' );
-	wp_enqueue_style( 'electoreftech-bundle', get_template_directory_uri() . '/assets/css/bundle.css', '20151215' );
-	wp_enqueue_style( 'nouislider', 'https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/10.0.0/nouislider.css' );
-	wp_enqueue_style( 'theme', get_template_directory_uri() . '/assets/css/theme.css' );
-	wp_enqueue_style( 'chosen', get_template_directory_uri() . '/assets/css/chosen.css', array(), '1.222'  );
-	wp_enqueue_style( 'electoreftech-style', get_stylesheet_uri(), array(), '1.45'  );
-	wp_enqueue_style( 'electoreftech-responsive', get_template_directory_uri() . '/assets/css/responsive.css', '20151215' );
+	wp_enqueue_style( 'bootstrap.min', get_template_directory_uri() . '/css/bootstrap.min.css', _S_VERSION );
+	wp_enqueue_style( 'electoreftech-main', get_template_directory_uri() . '/css/main.css', _S_VERSION );
 
+	wp_enqueue_style( 'electoreftech-style', get_stylesheet_uri(), array(), _S_VERSION );
+	wp_style_add_data( 'electoreftech-style', 'rtl', 'replace' );
 
+	wp_enqueue_script( 'jquery-3.5.1.min', get_template_directory_uri() . '/js/jquery-3.5.1.min.js', array(), _S_VERSION, true );
+	wp_enqueue_script( 'bootstrap.min', get_template_directory_uri() . '/js/bootstrap.min.js', array(), _S_VERSION, true );
+	wp_enqueue_script( 'owl.carousel', get_template_directory_uri() . '/js/owl.carousel.js', array(), _S_VERSION, true );
+	wp_enqueue_script( 'electoreftech-custom', get_template_directory_uri() . '/js/custom.js', array(), _S_VERSION, true );
+	wp_enqueue_script( 'megamenu', get_template_directory_uri() . '/js/megamenu.js', array(), _S_VERSION, true );
 
-	//wp_enqueue_script( 'electoreftech-jquery', get_template_directory_uri() . '/assets/js/vendorjquery-1.12.0.minn.js', array(), '20151215', true );
-	wp_enqueue_script( 'electoreftech-bootstrap', get_template_directory_uri() . '/assets/js/bootstrap.min.js', array(), '20151215', true );
-	wp_enqueue_script( 'electoreftech-headline', get_template_directory_uri() . '/assets/js/headline.js', array(), '20151215', true );
-	wp_enqueue_script( 'electoreftech-magnific', get_template_directory_uri() . '/assets/js/jquery.magnific-popup.min.js', array(), '20151215', true );
-	wp_enqueue_script( 'electoreftech-scrollUp', get_template_directory_uri() . '/assets/js/jquery.scrollUp.min.js', array(), '20151215', true );
-	wp_enqueue_script( 'electoreftech-isotope', get_template_directory_uri() . '/assets/js/isotope.pkgd.min.js', array(), '20151215', true );
-	wp_enqueue_script( 'electoreftech-imagesloaded', get_template_directory_uri() . '/assets/js/imagesloaded.pkgd.min.js', array(), '20151215', true );
-	wp_enqueue_script( 'electoreftech-counterup', get_template_directory_uri() . '/assets/js/jquery.counterup.min.js', array(), '20151215', true );
-	wp_enqueue_script( 'electoreftech-waypoints', get_template_directory_uri() . '/assets/js/waypoints.min.js', array(), '20151215', true );
-	wp_enqueue_script( 'electoreftech-parallax', get_template_directory_uri() . '/assets/js/jquery.parallax-1.1.3.js', array(), '20151215', true );
-	wp_enqueue_script( 'electoreftech-carousel', get_template_directory_uri() . '/assets/js/owl.carousel.min.js', array(), '20151215', true );
-	wp_enqueue_script( 'electoreftech-meanmenu', get_template_directory_uri() . '/assets/js/jquery.meanmenu.js', array(), '20151215', true );
-	wp_enqueue_script( 'electoreftech-zoom', get_template_directory_uri() . '/assets/js/zoom.js', array(), '20151215', true );
-	wp_enqueue_script( 'electoreftech-plugins', get_template_directory_uri() . '/assets/js/plugins.js', array(), '20151215', true );
-	wp_enqueue_script( 'nouislider', 'https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/10.0.0/nouislider.js', array(), '20190207', true );
-	wp_enqueue_script( 'chosen.jquery', get_template_directory_uri() . '/assets/js/chosen.jquery.js', array(), '20190207', true );
-	
-	wp_enqueue_script( 'electroref-pinit-js', '//assets.pinterest.com/js/pinit.js', array(), NULL, true );
-	wp_enqueue_script( 'electroref-facebook-js', '//connect.facebook.net/en_US/all.js', array(), NULL, true );
-	
-
-	wp_register_script( 'electoreftech-main', get_template_directory_uri() . '/assets/js/main.js', array(), '1.21', true );
-	wp_enqueue_script('electoreftech-main');
-
-	$electroref_params = array(
-		'admin_ajax_url' => admin_url( 'admin-ajax.php' ),
-		'site_name' => get_bloginfo('name'),
-		'search_url' =>  esc_url( home_url( '/products-air-conditioner-price-nepal/' ) ),
-		'loading_text' => __('Loading...', 'electoreftech'),
-		'no_more_content_text' => __('No more product found.', 'electoreftech'),
-		'load_more_text' => __('Load more', 'electoreftech'),
-		'processing' => __('Processing..', 'electoreftech'),
-		'slider_min_price' => '0',
-		'slider_max_price' => '300000',
-		'min_price' => '0',
-		'max_price' => '300000',
-	);
-
-	if(isset($_REQUEST['min_price']) && !empty($_REQUEST['min_price'])){
-		$electroref_params['min_price'] = $_REQUEST['min_price'];
-	}
-
-	if(isset($_REQUEST['max_price']) && !empty($_REQUEST['max_price'])){
-		$electroref_params['max_price'] = $_REQUEST['max_price'];
-	}
-
-	wp_localize_script( 'electoreftech-main', 'electroref_params', $electroref_params);
-
-	wp_enqueue_script( 'electoreftech-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20151215', true );
-
-	wp_enqueue_script( 'electoreftech-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), '20151215', true );
+	wp_enqueue_script( 'electoreftech-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
@@ -215,7 +175,6 @@ require get_template_directory() . '/inc/template-tags.php';
  */
 require get_template_directory() . '/inc/template-functions.php';
 
-
 /**
  * Customizer additions.
  */
@@ -224,8 +183,6 @@ require get_template_directory() . '/vendor/autoload.php';
 require get_template_directory() . '/inc/electroref_functions.php';
 require get_template_directory() . '/admin/config_admin.php';
 require get_template_directory() . '/inc/home_page_cmb2.php';
-
-
 
 /**
  * Load Jetpack compatibility file.

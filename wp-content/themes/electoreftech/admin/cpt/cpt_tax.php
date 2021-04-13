@@ -149,4 +149,28 @@ $cmb_term = new_cmb2_box( array(
 	// Add other metaboxes as needed
 }
 
+/**
+ * Hook in and add a metabox to add fields to taxonomy terms
+ */
+add_action( 'cmb2_init', 'cmb2_register_prod_cat_metabox' );
+function cmb2_register_prod_cat_metabox() {
+	$prefix = '_product_cat_';
+
+$cmb_term = new_cmb2_box( array(
+	'id'               => $prefix . 'edit',
+	'title'            => esc_html__( 'Product Category', 'cmb2' ), // Doesn't output for term boxes
+	'object_types'     => array( 'term' ), // Tells CMB2 to use term_meta vs post_meta
+	'taxonomies'       => array( 'product_cat' ), // Tells CMB2 which taxonomies should have these fields
+	'new_term_section' => true, // Will display in the "Add New Category" section
+) );
+		$cmb_term->add_field( array(
+			'name' 			=> esc_html__( 'Upload Category Image', 'cmb2' ),
+			'desc' 			=> esc_html__( 'Add an image to represent this category.', 'cmb2' ),
+			'id'   			=> $prefix . 'img',
+			'type' 			=> 'file',
+			'column' 		=> array( 'position' => 8 ),
+		) );
+	// Add other metaboxes as needed
+}
+
 ?>

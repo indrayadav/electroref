@@ -15,343 +15,273 @@
 get_header();
 $home_id = get_the_ID();
 ?>
-<!-- slider-area-start -->
-<section id="main-slider">
-    <div id="home-slider" class="owl-carousel owl-theme">
-   <?php $query= new WP_Query(array('post_type'=>'slider'));
 
-        if($query->have_posts()): 
+<!-- Banner -->
+<?php $query= new WP_Query(array('post_type'=>'slider'));
+if($query->have_posts()):
+$cnt = 0;    ?> 
+<section id="banner">
+	<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+		<div class="carousel-inner">
+			<?php 
+			        while($query->have_posts()): $query->the_post(); 
+					$featured_img_url = get_the_post_thumbnail_url(get_the_ID(), 'full'); 
+					$cnt++;
+			?>
+			<div class="carousel-item <?php if($cnt == 1) { echo ' active'; } ?>"> <img class="d-block w-100" src="<?php echo $featured_img_url; ?>" alt="First slide">
+			</div>
+			<?php endwhile;  ?>
+		</div>
+		<a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev"> <i class="fa fa-angle-left" aria-hidden="true"></i> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next"> <i class="fa fa-angle-right" aria-hidden="true"></i> <span class="sr-only">Next</span> </a>
+	</div>
+</section>
+<?php endif;
+wp_reset_query(); ?>
 
-        while($query->have_posts()): $query->the_post(); 
 
-        $featured_img_url = get_the_post_thumbnail_url(get_the_ID(), 'full'); 
+<!-- Top Featured categories Section Start -->
+<?php 	$terms = get_terms( array(
+			'taxonomy' => 'product_cat',
+			'hide_empty' => true
+		) );
 
-        ?>
-    
-    <div class="item"><img src="<?php echo $featured_img_url; ?>" alt="The Last of us"></div>
-    <?php  
+		if ( ! empty( $terms ) && ! is_wp_error( $terms ) ){		
+		?>
+<section id="top-featured-categories">
+	<div class="container">
+		<div class="mainfoodtitle">
+			<h2>Top categories</h2>
+		</div>
+		<div class="owl-theme bestselllerowl">
+			<?php foreach ( $terms as $term ) {
+				$cat_url = home_url( '/products-air-conditioner-price-nepal/' ) . '?prod_cat='.  $term->slug;
+				$file = get_term_meta( $term->term_id, '_product_cat_img', true );
+				if(!empty($file)){
+				?>
+			<div class="item">
+				<div class="tcatbox">
+					<div class="tcatimg"> <a href="<?php echo $cat_url; ?>"><img src="<?php  echo $file;?>" class="img-fluid" alt="<?php echo $term->name; ?>"></a> </div>
+					<div class="tcatdesc">
+						<h4><a href="<?php echo $cat_url; ?>"><?php echo $term->name; ?></a></h4>
+					</div>
+				</div>
+			</div>
+			<?php } 
+			} ?>
+		</div>
+	</div>
+</section>
+<?php } ?>
 
-endwhile; 
+<!-- what-we-do-start -->
+<?php $what_we_do = get_post_meta( get_the_ID(), 'what-we-do', true );
+ if($what_we_do){  ?>
+<section id="whatwedosection">
+	<div class="container">
+		<div class="bgwhatwedo-overlay">
+			<div class="mainfoodtitle">
+				<h2 class="maintitle">What We Do</h2>
+			</div>
+			<div class="row">
+				<?php foreach( $what_we_do as $key => $we_do ) { ?>
+				<div class="col-md-6 col-lg-4">
+					<div class="whatwedobox">
+						<div class="whatwe-do-img">
+							<a href="<?php echo $we_do['url']; ?>"><img src="<?php echo $we_do['image'] ?>" class="img-fluid" alt="<?php echo $we_do['title']; ?>"></a>
+						</div>
+						<div class="whatwe-do-desc">
+							<h4><a href="<?php echo $we_do['url']; ?>"><?php echo $we_do['title']; ?></a></h4>
+							<p><?php echo wpautop($we_do['description']); ?></p>
+							<div class="electrobtn"><a href="<?php echo $we_do['url']; ?>">Read More</a></div>
+						</div>
+					</div>
+				</div>
+				<?php } ?>
+			</div>
+		</div>
+	</div>
+</section>
+<?php } ?>
 
-endif;
-
+<!-- Top Products Section Start -->
+<?php 				
+	$args = array(
+		'posts_per_page' => 14,
+		'post_type' => 'product',	
+		'orderby' => array( 'rand', 'name' ),
+		'order'   => 'DESC',
+);
+$wp_query = new WP_Query( $args );	
+if ( $wp_query->have_posts() ) {			
+?>
+<section id="top-products">
+	<div class="container">
+		<div class="mainfoodtitle">
+			<h2>Featured Products</h2>
+		</div>
+		<div class="pharproductLists">
+			<div class="owl-theme bestselllerowl">
+				<?php while ( $wp_query->have_posts() ) : $wp_query->the_post(); 
+				$post_id = get_the_ID(); 
+				get_template_part(
+					'template-parts/product/product',
+					'carosal',
+					array(
+						'post_id' => $post_id,
+					)
+				);
+				endwhile;
+				?>
+			</div>
+		</div>
+	</div>
+</section>
+<?php }
 wp_reset_query();
-
 ?>
 
-    
-    </div>
-</section>
-		<!-- slider-area-end -->
-		<!-- what-we-do-start -->
-		<div class="what-we-do ptb-120 gray-bg">
-			<div class="container">
-			<div class="section-title mb-60 text-center" style="background-image:url(<?php echo get_template_directory_uri(); ?>/assets/img/logo/section.png)">
-					<h4>Our Company</h4>
-					<h2>What We Do</h2>
-				</div>
-				<div class="row">
-					<div class="col-md-4 p-r">
-						<div>
-							<!-- Nav tabs -->
-							<ul class="offer-tab" role="tablist">
-								<?php $what_we_do = get_post_meta( get_the_ID(), 'what-we-do', true ); 
-							
-									foreach( $what_we_do as $key => $we_do ) {
-										?>
-										
-										<li role="presentation" class="<?php echo $key==0?'active':''; ?>">
-									<a href="#<?php echo $key ?>" aria-controls="<?php echo $key ?>" role="tab" data-toggle="tab">
-										<div class="offer-list">
-										    <?php /* ?>
-											<div class="offer-icon">
-												<i class="<?php echo $we_do['icon']; ?>"></i>
-											</div> <?php */ ?>
-											<div class="offer-text">
-												<span><?php echo $we_do['title']; ?></span>
-											</div>
-										</div>
-									</a>
-								</li>
+<!-- Our Services Section Start -->
 
-									<?php }
-
-								?>							
-							</ul>
-						</div>					
-					</div> 
-					<div class="col-md-8 p-t">
-						  <!-- Tab panes -->
-						<div class="tab-content">
-							<?php 
-							foreach( $what_we_do as $key => $we_do ) {
-								?>
-							<div role="tabpanel" class="tab-pane <?php echo $key==0?'active':''; ?>" id="<?php echo $key; ?>">
-								<div class="offer-wrapper" style="background-image:url(<?php echo $we_do['image'] ?>)">
-									<div class="offer-content">
-										<?php echo wpautop($we_do['description']); ?>
-										<a href="https://electroreftech.com/contact/">CONTACT NOW</a>
-									</div>
-								</div>
-							</div>
-							<?php } ?>						
-						</div>					
-					</div>
-				</div>
-			</div>
-        </div>
-        
-        <!-- products-area-start -->
-  <div class="blog-area pt-120 pb-90" id="latest-news-sec">
-			<div class="container">
-				<div class="section-title mb-60 text-center" style="background-image:url(<?php echo get_template_directory_uri(); ?>/assets/img/logo/section.png)">
-					<h4><a href="https://electroreftech.com/products/">View All Products</a></h4>
-					<h2>Featured Products</h2>
-				</div>
-				<div class="row">
-				    <div id="home_products" class="owl-carousel owl-theme">
-                <?php 
-				
-			
-				$args = array(
-						'posts_per_page' => 8,
-						'post_type' => 'product',	
-						'orderby' => array( 'rand', 'name' ),
-						'order'   => 'DESC',
+<?php 				
+	$args = array(
+		'posts_per_page' => 3,
+		'post_type' => 'service',	
+		'order'   => 'DESC',
+);
+$wp_query = new WP_Query( $args );	
+if ( $wp_query->have_posts() ) {			
+?>
+<section id="ourserviesec">
+	<div class="container">
+		<div class="mainfoodtitle">
+			<h2>Our Services</h2>
+		</div>
+		<div class="row">
+		<?php while ( $wp_query->have_posts() ) : $wp_query->the_post(); 
+				$post_id = get_the_ID(); 
+				get_template_part(
+					'template-parts/blog/blog',
+					'grid',
+					array(
+						'post_id' => $post_id,
+					)
 				);
-				
-				$wp_query = new WP_Query( $args );			 
-				 
-						while ( $wp_query->have_posts() ) : $wp_query->the_post();
+				endwhile;
+	    ?>
+		</div>
+	</div>
+</section>
+<?php }
+wp_reset_query();
+?>   
 
-						 $post_id = get_the_ID(); 
-						 $price = get_post_meta($post_id, 'product_price', true);
+<!-- Best Sellers Section Start -->
+<?php 				
+	$args = array(
+		'posts_per_page' => 14,
+		'post_type' => 'product',	
+		'orderby' => array( 'rand', 'name' ),
+		'order'   => 'DESC',
+);
+$wp_query = new WP_Query( $args );	
+if ( $wp_query->have_posts() ) {			
+?>
+<section id="best-selllers">
+	<div class="container">
+		<div class="mainfoodtitle">
+			<h2>Best Sellers</h2>
+		</div>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="pharproductLists">
+					<div class="owl-theme bestselllerowl">
+					<?php while ( $wp_query->have_posts() ) : $wp_query->the_post(); 
+						$post_id = get_the_ID(); 
+						get_template_part(
+							'template-parts/product/product',
+							'carosal',
+							array(
+								'post_id' => $post_id,
+							)
+						);
+						endwhile;
 						?>
-						<div class="col-md-12">
-							<div class="blog-wrapper mb-30">
-								<div class="product-img">
-									<a href="<?php echo get_permalink($post_id); ?>">
-									<?php 
-									// Must be inside a loop.
-									 
-									if ( has_post_thumbnail() ) {
-										the_post_thumbnail('home-product',array('class' => 'img-responsive'));
-									}
-									else {
-										echo '<img src="' . get_template_directory_uri() . '/img/no_image.png" />';
-									}
-								
-									?></a>
-								</div>
-								<div class="blog-text">
-									<div class="blog-info">
-										<h3><a href="<?php echo get_permalink($post_id); ?>"><?php echo get_the_title($post_id); ?></a></h3>
-									</div>
-									<div class="blog-date">
-										
-										<?php  echo electoreftech_product_price( $post_id);  ?>
-										<div class="read-more"><a href="<?php echo get_permalink($post_id); ?>">VIEW MORE</a></div>
-									</div>
-								</div>
-							</div>
-						</div>
-                        
-					
-						<?php 
-						
-							endwhile;			
-						
-						?>
-						</div>
+					</div>
 				</div>
 			</div>
-        </div>
-		<!-- products-area-start -->
-				
-		
-		
-		<!-- our-service-area-start -->
-		<div class="our-service-area pt-120 pb-90 gray-bg">
-			<div class="container">
-				<div class="section-title mb-60 text-center" style="background-image:url(<?php echo get_template_directory_uri(); ?>/assets/img/logo/section.png)">
-					<h4>We Provide</h4>
-					<h2>Our Services</h2>
-				</div>
-				<div class="row">
-				<?php 
-				 $args = [	
-					'post_type' => 'service',						
-					'posts_per_page' => 3,
-				 ];
+		</div>
+	</div>
+</section>
+<?php }
+wp_reset_query();
+?>  
 
-				$the_query = new WP_Query( $args ); ?>
-				
-				<?php if ( $the_query->have_posts() ) :
-					 while ( $the_query->have_posts() ) : $the_query->the_post(); ?>
-					<div class="col-md-4 col-sm-6">
-						<div class="service-wrapper mb-30">
-							<div class="service-img">
-								<?php 
-								if ( has_post_thumbnail() ) {
-									the_post_thumbnail('homepage-thumb');
-								}
-								else {
-									echo '<img src="' . get_bloginfo( 'stylesheet_directory' ) 
-										. '/assets/img/blog/1.jpg" />';
-								}
-								?>	
-							</div>
-							<div class="service-text text-center">
-								<div class="service-icon-img">
-									<i class="flaticon-house-icon"></i>
-								</div>
-								<h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
-								<?php echo wpautop(wp_trim_words( get_the_content(), 22, null )); ?>
-								<a href="<?php the_permalink(); ?>">read more</a>
-							</div>
-						</div>
-					</div>
-					<?php endwhile;
-					 wp_reset_postdata(); 
-					 endif; ?>
-					
-				</div>
-			</div>
+<!-- Blog Section Start -->
+<?php 				
+	$args = array(
+		'posts_per_page' => 3,
+		'post_type' => 'post',	
+		'order'   => 'DESC',
+);
+$wp_query = new WP_Query( $args );	
+if ( $wp_query->have_posts() ) {			
+?>
+<section id="blogsection">
+	<div class="container">
+		<div class="mainfoodtitle">
+			<h2>Latest Blog</h2>
 		</div>
-		<!-- our-service-area-end -->
-		<!-- blog-area-start -->
-		<div class="blog-area pt-120 pb-90" id="latest-news-sec">
-			<div class="container">
-				<div class="section-title mb-60 text-center" style="background-image:url(<?php echo get_template_directory_uri(); ?>/assets/img/logo/section.png)">
-					<h4>blog</h4>
-					<h2>Latest News</h2>
-				</div>
-				<div class="row">
-				<?php 
-				 $args = [							
-					'posts_per_page' => 3,
-				 ];
+		<div class="row">
+		<?php while ( $wp_query->have_posts() ) : $wp_query->the_post(); 
+				$post_id = get_the_ID(); 
+				get_template_part(
+					'template-parts/blog/blog',
+					'modern',
+					array(
+						'post_id' => $post_id,
+					)
+				);
+				endwhile;
+	    ?>
+		</div>
+	</div>
+</section>
+<?php }
+wp_reset_query();
+?>  
 
-				$the_query = new WP_Query( $args ); ?>
-				
-				<?php if ( $the_query->have_posts() ) :
-					 while ( $the_query->have_posts() ) : $the_query->the_post(); ?>
-					<div class="col-md-4 col-sm-6">
-						<div class="blog-wrapper mb-30">
-							<div class="blog-img">
-								<a href="<?php the_permalink(); ?>">
-								<?php 
-								if ( has_post_thumbnail() ) {
-									the_post_thumbnail('homepage-thumb');
-								}
-								else {
-									echo '<img src="' . get_bloginfo( 'stylesheet_directory' ) 
-										. '/assets/img/blog/1.jpg" />';
-								}
-								?>								
-								</a>
-							</div>
-							<div class="blog-text">
-								<div class="blog-info">
-									<h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
-										<?php echo wpautop(wp_trim_words(get_the_content(),'20','')); ?>
-								</div>
-								<div class="blog-date">
-									<span><i class="fa fa-clock-o"></i><?php echo get_the_date(); ?></span>
-									<!-- <span><i class="fa fa-heart"></i>20 like</span> -->
-									<span><i class="fa fa-comment"></i><?php echo get_comments_number(); ?> comments</span>
-								</div>
-							</div>
-						</div>
-					</div>
-					<?php endwhile;
-					 wp_reset_postdata(); 
-					 endif; ?>
-					
-					<!-- <div class="col-md-4 col-sm-6">
-						<div class="blog-wrapper mb-30">
-							<div class="blog-img">
-								<a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/blog/2.jpg" alt="" /></a>
-							</div>
-							<div class="blog-text">
-								<div class="blog-info">
-									<h3><a href="#">Lorem ipsum dolor sit amet conse.</a></h3>
-									<p>Lorem ipsum dolor sit amet con adipisic elit sed do eiusmod tel incididunt ut lab et dolore mag aliqua.</p>
-								</div>
-								<div class="blog-date">
-									<span><i class="fa fa-clock-o"></i>14 Sep, 2017</span>
-									<span><i class="fa fa-heart"></i>20 like</span>
-									<span><i class="fa fa-comment"></i>0 comments</span>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4 hidden-sm">
-						<div class="blog-wrapper mb-30">
-							<div class="blog-img">
-								<a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/blog/3.jpg" alt="" /></a>
-							</div>
-							<div class="blog-text">
-								<div class="blog-info">
-									<h3><a href="#">Lorem ipsum dolor sit amet conse.</a></h3>
-									<p>Lorem ipsum dolor sit amet con adipisic elit sed do eiusmod tel incididunt ut lab et dolore mag aliqua.</p>
-								</div>
-								<div class="blog-date">
-									<span><i class="fa fa-clock-o"></i>14 Sep, 2017</span>
-									<span><i class="fa fa-heart"></i>20 like</span>
-									<span><i class="fa fa-comment"></i>0 comments</span>
-								</div>
-							</div>
-						</div>
-					</div> -->
-				</div>
-			</div>
+<!-- What Our Students say about Us Section Start -->
+<?php $testimonials = get_post_meta( $home_id, 'what-client-says', 'true'); 
+if($testimonials){
+?>
+<section id="testimonials-section">
+	<div class="container">
+		<div class="mainfoodtitle">
+			<h2>Customer Reviews</h2>
 		</div>
-        <!-- blog-area-start -->
-        
-        <!-- testimonial-1-area-start -->
-		<div class="testimonial-1-area pt-120 pb-200 gray-bg">
-			<div class="container">
-				<div class="section-title text-center" style="background-image:url(<?php echo get_template_directory_uri(); ?>/assets/img/logo/section.png)">
-					<h4>Testimonial</h4>
-					<h2>What Clients Say</h2>
-				</div>
-			</div>
-		</div>
-		<!-- testimonial-1-area-end -->
-		<!-- testimonial-area-start -->
-		<div class="testimonial-area pb-80">
-			<div class="container">
-				<div class="row">
-					<div class="testimonial-active owl-carousel">
-						<?php $testimonials = get_post_meta( $home_id, 'what-client-says', 'true');
-						 foreach ($testimonials as $key => $testimonial) {
-							?>
-
-						<div class="col-md-12">
-							<div class="testimonial-wrapper mb-30">
-								<div class="testimonial-img text-center">
-									<img src="<?php echo $testimonial['image']; ?>" alt="" />
-								</div>
-								<div class="testimonial-text text-center">
-								<?php echo wpautop( $testimonial['thoughts']); ?>
-									<span><?php echo $testimonial['name']; ?></span>
-								</div>
+		<div class="row">
+			<?php foreach ($testimonials as $key => $testimonial) { ?>
+			<div class="col-md-4 col-lg-4">
+				<div class="testimolbox">
+					<div class="testdescitpion">
+						<p><?php echo wpautop( $testimonial['thoughts']); ?></p>
+					</div>
+					<div class="sturentnamepostion">
+						<div class="media">
+							<img class="align-self-start mr-3" src="<?php echo $testimonial['image']; ?>" alt="<?php echo $testimonial['name']; ?>">
+							<div class="media-body">
+								<h5 class="mt-0"><?php echo $testimonial['name']; ?></h5>
+								<p><?php echo $testimonial['position']; ?></p>
 							</div>
-						</div>
-							
-							<?php
-						 }	
-						?>
-										
-							
 						</div>
 					</div>
 				</div>
 			</div>
+			<?php } ?>
 		</div>
-		<!-- testimonial-area-end -->
-	
+	</div>
+</section>
+<?php } ?>
 	
 <?php
 get_footer();
