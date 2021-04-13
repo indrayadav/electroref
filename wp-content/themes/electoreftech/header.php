@@ -139,7 +139,7 @@
                                 <ul class="nav-menu align-to-right">
                                     <li><a href="#">About</a></li>
                                     <li><a href="#">Services</a></li>
-                                    <li><a href="products.html">Products</a></li>
+                                    <li><a href="<?php echo home_url( '/products-air-conditioner-price-nepal/' ); ?>">Products</a></li>
                                     <li><a href="#">Brands</a>
                                         <div class="megamenu-panel">
                                             <?php 

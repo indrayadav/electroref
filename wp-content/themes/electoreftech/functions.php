@@ -141,8 +141,12 @@ add_action( 'widgets_init', 'electoreftech_widgets_init' );
  */
 function electoreftech_scripts() {
 	wp_enqueue_style( 'bootstrap.min', get_template_directory_uri() . '/css/bootstrap.min.css', _S_VERSION );
-	wp_enqueue_style( 'electoreftech-main', get_template_directory_uri() . '/css/main.css', _S_VERSION );
+	wp_enqueue_style( 'nouislider', 'https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/10.0.0/nouislider.css' );
+	wp_enqueue_style( 'theme', get_template_directory_uri() . '/css/theme.css' );
+	wp_enqueue_style( 'chosen', get_template_directory_uri() . '/css/chosen.css', array(), _S_VERSION  );
 
+	wp_enqueue_style( 'electoreftech-main', get_template_directory_uri() . '/css/main.css', _S_VERSION );
+	
 	wp_enqueue_style( 'electoreftech-style', get_stylesheet_uri(), array(), _S_VERSION );
 	wp_style_add_data( 'electoreftech-style', 'rtl', 'replace' );
 
@@ -152,6 +156,34 @@ function electoreftech_scripts() {
 	wp_enqueue_script( 'electoreftech-custom', get_template_directory_uri() . '/js/custom.js', array(), _S_VERSION, true );
 	wp_enqueue_script( 'megamenu', get_template_directory_uri() . '/js/megamenu.js', array(), _S_VERSION, true );
 
+	wp_enqueue_script( 'nouislider', 'https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/10.0.0/nouislider.js', array(), '20190207', true );
+	wp_enqueue_script( 'chosen.jquery', get_template_directory_uri() . '/js/chosen.jquery.js', array(), '20190207', true );
+
+	wp_enqueue_script( 'electoreftech-param', get_template_directory_uri() . '/js/electroref.js', array(), '20190207', true );
+	
+	$electroref_params = array(
+		'admin_ajax_url' => admin_url( 'admin-ajax.php' ),
+		'site_name' => get_bloginfo('name'),
+		'search_url' =>  esc_url( home_url( '/products-air-conditioner-price-nepal/' ) ),
+		'loading_text' => __('Loading...', 'electoreftech'),
+		'no_more_content_text' => __('No more product found.', 'electoreftech'),
+		'load_more_text' => __('Load more', 'electoreftech'),
+		'processing' => __('Processing..', 'electoreftech'),
+		'slider_min_price' => '0',
+		'slider_max_price' => '300000',
+		'min_price' => '0',
+		'max_price' => '300000',
+	);
+
+	if(isset($_REQUEST['min_price']) && !empty($_REQUEST['min_price'])){
+		$electroref_params['min_price'] = $_REQUEST['min_price'];
+	}
+
+	if(isset($_REQUEST['max_price']) && !empty($_REQUEST['max_price'])){
+		$electroref_params['max_price'] = $_REQUEST['max_price'];
+	}
+
+	wp_localize_script( 'electoreftech-param', 'electroref_params', $electroref_params);
 	wp_enqueue_script( 'electoreftech-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {

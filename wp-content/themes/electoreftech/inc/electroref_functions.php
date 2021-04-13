@@ -342,31 +342,24 @@ if ( ! function_exists( 'electro_filter_product' ) ) {
             $post_id = get_the_ID();
             $cnt++;
 
-            $content .= '<div class="col-md-3 col-sm-6">
-            <div class="blog-wrapper mb-30">
-                <div class="blog-img product-img-block">
-                    <a href="' . get_permalink($post_id) . '">';
-
-                    if ( has_post_thumbnail() ) {
-                        $content .= get_the_post_thumbnail();
-                    }
-                    else {
-                        $content .= '<img src="' . get_template_directory_uri() . '/img/no_image.png" />';
-                    }
-
-                $product_stock = get_post_meta($post_id, 'product_stock', true);
-                if(isset($product_stock ) && $product_stock == 'stock_out'){
-                    $content .= '<span class="out-of-stock-badge">Out of stock</span>';
-                }
-
-                $content .= '</a>
-                </div>
-                <div class="blog-text">
-                    <div class="blog-info">
-                        <h3><a href="' . get_permalink($post_id) . '">'.  get_the_title($post_id) .' </a></h3>
-                    </div>
-                    <div class="blog-date">' . electoreftech_product_price( $post_id) . '<div class="read-more"><a href="'.  get_permalink($post_id) .'">VIEW MORE</a></div>
-                    </div>
+            $content .= '<div class="col-12 col-md-6 col-lg-3">
+            <div class="pharprodbox">
+                <div class="pharprodimg"> <a href="'. get_permalink($post_id) .'">';
+            
+            if ( has_post_thumbnail() ) {
+                $content .= get_the_post_thumbnail($post_id, 'thumbnail', [ 'class' => 'img-fluid'] );
+            }
+            else {
+                $content .=  '<img src="' . get_template_directory_uri() . '/img/no_image.png"  class="img-fluid" />';
+            }
+                
+            $content .= '</a> </div>
+                <div class="pharprodesc">
+                    <h4><a href="'. get_permalink($post_id) .'">'. get_the_title($post_id) .'</a></h4>';
+            $content .=  electoreftech_product_rating($post_id);
+            $content .=  electoreftech_product_price($post_id);
+                   
+            $content .= '<div class="electrobtn"><a href="'. get_permalink($post_id) .'">View Detail</a></div>
                 </div>
             </div>
         </div>';
