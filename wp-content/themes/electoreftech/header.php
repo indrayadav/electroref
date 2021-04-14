@@ -35,7 +35,12 @@
                                 <ul>
                                     <li><i class="fa fa-phone-square" aria-hidden="true"></i>+977-1-5260961</li>
                                     <li class="topsocialicons">
-                                        <span><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></span><span><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></span><span><a href="#"><i class="fa fa-youtube" aria-hidden="true"></i></a></span><span><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></span><span><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></span><span><a href="#"><i class="fa fa-whatsapp" aria-hidden="true"></i></a></span>
+                                        <span><a href="https://www.facebook.com/electroref.tech/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></span>
+                                        <span><a href="https://twitter.com/nepal_achouse/" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></span>
+                                        <span><a href="https://www.youtube.com/channel/UCIXsEn0OD1Pe7l1NX4qpV9A" target="_blank"><i class="fa fa-youtube" aria-hidden="true"></i></a></span>
+                                        <span><a href="https://www.instagram.com/electroreftech/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a></span>
+                                        <span><a href="https://www.pinterest.com/electroreftech/" target="_blank"><i class="fa fa-pinterest" aria-hidden="true"></i></a></span>
+                                        <span><a href="https://wa.me/97798841031632" target="_blank"><i class="fa fa-whatsapp" aria-hidden="true"></i></a></span>
                                     </li>
                                 </ul>
                             </div>
@@ -103,9 +108,9 @@
                 <div class="site-search-form">
                     <button class="btn btn-close" id="search-close"><img src="<?php echo get_template_directory_uri(); ?>/img/close.png"></button>
                     <div class="form-search-box">
-                        <form>
+                    <form class="navbar-form" action="<?php echo esc_url( home_url( '/products-air-conditioner-price-nepal/' ) ); ?>" method="get" role="search">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Search...">
+                                <input type="text" name="query"  class="form-control" placeholder="Search...">
                                 <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
                             </div>
                         </form>

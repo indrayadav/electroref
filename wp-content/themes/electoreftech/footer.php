@@ -114,11 +114,11 @@
                                     <div class="socialconnectus">
                                         <h4>Follow us<span></span></h4>
                                         <ul>
-                                            <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-youtube" aria-hidden="true"></i></a></li>
+                                            <li><a href="https://www.facebook.com/electroref.tech/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                            <li><a href="https://twitter.com/nepal_achouse/" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                            <li><a href="https://wa.me/97798841031632" target="_blank"><i class="fa fa-whatsapp" aria-hidden="true"></i></a></li>
+                                            <li><a href="https://www.instagram.com/electroreftech/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                                            <li><a href="https://www.youtube.com/channel/UCIXsEn0OD1Pe7l1NX4qpV9A" target="_blank"><i class="fa fa-youtube" aria-hidden="true"></i></a></li>
                                         </ul>
                                     </div>
                                 </div>

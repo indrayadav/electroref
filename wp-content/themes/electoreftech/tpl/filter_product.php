@@ -119,7 +119,25 @@ if($load_more_record <= 0){
                 <div class="row">
                     <div class="col-md-4 col-lg-3">
                         <div class="product-left-sidebar">
-							
+						<div id="accordion">
+                                <div class="card">
+                                    <div class="card-header" id="headingOne">
+                                        <h4 class="mb-0 panel-title" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"> Search </h4>
+                                    </div>
+                                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                                        <div class="card-body">
+                                            <div class="searchbox">
+												<div class="input-group">
+													<input type="text" class="form-control" placeholder="Search..." value="<?php if(isset($_REQUEST['query']) && !empty($_REQUEST['query'])){ echo $_REQUEST['query']; }?>" name="s" id="query">
+													<div class="input-group-append">
+													<button class="btn"  id="text_search" type="button">Search</button>
+												</div>
+                            				</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div id="accordion">
                                 <div class="card">
                                     <div class="card-header" id="headingOne">
