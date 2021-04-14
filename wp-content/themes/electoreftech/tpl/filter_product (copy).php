@@ -123,7 +123,7 @@ if($load_more_record <= 0){
 		<div class="row">
 			<div class="col-md-3 mb-30">
 				<div class="product-left-sidebar">
-				<div class="selectprodcategory mb-3">
+					<div class="selectprodcategory mb-3">
 						<div class="panel-group" id="accordion1" role="tablist" aria-multiselectable="true">
 							<div class="panel panel-default">
 								<div class="panel-heading" role="tab" id="headingOne">

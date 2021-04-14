@@ -129,8 +129,9 @@ function electoreftech_widgets_init() {
 			'description'   => esc_html__( 'Add widgets here.', 'electoreftech' ),
 			'before_widget' => '<section id="%1$s" class="widget %2$s">',
 			'after_widget'  => '</section>',
-			'before_title'  => '<h2 class="widget-title">',
-			'after_title'   => '</h2>',
+			'before_title'  => '<div class="right-side-title"><span class="title-wrapper">
+				<span class="blog-title-inner">',
+			'after_title'   => '</span></span></div>',
 		)
 	);
 }

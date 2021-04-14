@@ -24,79 +24,48 @@ while ( have_posts() ) :
 	}
  ?>
 
-        <div class="breadcrumb-banner-area ptb-120 bg-opacity" style="background-image:url(<?php echo $banner_img; ?>)">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-12">
-						<div class="breadcrumb-text text-center">
-						<h2><?php echo get_the_title(); ?></h2>
-							<?php 
-							if ( function_exists( 'electoreftech_breadcrumbs' ) ) {
-								electoreftech_breadcrumbs();
-							}
-							?>
-						</div>
-					</div>
-				</div>
-			</div>
-        </div>
-        
-		<div class="Our-Services-area pt-120 pb-65">
-			<div class="container">
-				<div class="section-info text-center mb-60">
-					<h2><?php echo get_the_title(); ?></h2>
-					<?php 
-					$electroref_sub_heading = get_post_meta(get_the_ID(), 'electroref_sub_heading', true);
-					if(isset($electroref_sub_heading) && !empty($electroref_sub_heading)){
-						echo '<p>'. $electroref_sub_heading .'</p>'; 
-					}
+<section id="breadcrumb-nf">
+	<div class="container">
+	<h1><?php echo get_the_title(); ?></h1>
+		<?php
+			if ( function_exists( 'electoreftech_breadcrumbs' ) ) {
+				electoreftech_breadcrumbs();
+			}
+			?>
+	</div>
+</section>
 
-					?>
-				</div>
-				<div class="row">
-					<?php
-					$args = array(
-						'posts_per_page' => -1,
-						'post_type' => 'service',
-						'orderby' => 'menu_order',
-					);
-					
-					$myposts = get_posts( $args );
-					if($myposts){
-						foreach( $myposts as $post ) :
-							setup_postdata($post);
-		
-							$post_id = $post->ID;
-							$icon_img = '';
+<?php 	 endwhile; // End of the loop.			
+	$args = array(
+		'posts_per_page' => -1,
+		'post_type' => 'service',	
+		'order'   => 'DESC',
+);
+$wp_query = new WP_Query( $args );	
+if ( $wp_query->have_posts() ) {			
+?>
+        <!-- Services Section Start -->
+        <section id="ourserviesec" class="ourservices-page">
+            <div class="container">
+                <div class="mainfoodtitle">
+                    <h2>Our Services</h2>
+                </div>
+                <div class="row">
+				<?php while ( $wp_query->have_posts() ) : $wp_query->the_post(); 
+				$post_id = get_the_ID(); 
+				get_template_part(
+					'template-parts/blog/blog',
+					'grid',
+					array(
+						'post_id' => $post_id,
+					)
+				);
+				endwhile;
+	    ?>
+                </div>
+            </div>
+        </section>
 
-							$service_icon = get_post_meta($post_id, 'service_icon', true);
-							if(isset($service_icon) && !empty($service_icon)){
-								$icon_img = '<div class="our-services-icon"><i class="'. $service_icon .'"></i></div>'; 
-							} else if ( has_post_thumbnail($post_id) ) {
-								$icon_img = '<div class="our-services-icon">' . get_the_post_thumbnail( $post_id, 'thumbnail', array( 'class' => 'aligncenter' ,  'itemprop' => 'work' ) ) . '</div>';
-							}
+<?php  } 
 
-
-						?>
-							<div class="col-md-4 col-sm-6">
-						<div  itemscope itemtype="http://n.whatwg.org/work" itemref="licenses" class="our-services-wrapper text-center mb-50">
-							<?php echo $icon_img; ?>
-							<div class="our-services-text">
-								<h3  itemprop="title"><a href="<?php echo get_permalink($post_id); ?>"><?php echo get_the_title($post_id); ?></a></h3>
-								<p><?php echo get_the_excerpt($post_id); ?></p>
-							</div>
-						</div>
-					</div>
-						<?php 
-					 endforeach;
-					 wp_reset_postdata();
-					}
-					
-					?>
-				</div>
-			</div>
-		</div>
-
-<?php 
-endwhile; // End of the loop.
 get_footer();

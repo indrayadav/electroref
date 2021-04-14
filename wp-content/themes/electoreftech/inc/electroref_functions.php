@@ -84,7 +84,7 @@ if ( ! function_exists( 'electoreftech_breadcrumbs' ) ) {
                         if ($showCurrent == 0){
                             $cats = preg_replace("#^(.+)\s$delimiter\s$#", "$1", $cats);
                         }
-                        echo $cats;
+                        echo $before . $cats . $after;
                         if ($showCurrent == 1){ 
                             echo $before . get_the_title() . $after;
                         }
