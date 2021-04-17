@@ -116,6 +116,7 @@ if(isset($electroref_page_banner) && !empty($electroref_page_banner)){
 									?>
 						</ul>
 					</div>
+					
 					<div class="product-price">
 						<h4><?php echo electoreftech_product_price(get_the_ID()); ?></h4>
 					</div>
@@ -124,6 +125,7 @@ if(isset($electroref_page_banner) && !empty($electroref_page_banner)){
 							<li>Share: </li>
 							<li><a href="#" class="facebookshare"><i class="fa fa-facebook" aria-hidden="true"></i>Share</a></li>
 							<li><a href="#" class="tweetshare"><i class="fa fa-twitter" aria-hidden="true"></i>Tweet</a></li>
+							<li><div class="wishlistprodiocn"><a href="#"><i class="fa fa-heart-o" aria-hidden="true"></i>Save</a></div></li>
 						</ul>
 					</div>
 					<div class="book-now"><a href="#" data-toggle="modal" data-target="#booknowModal">Book Now</a></div>
@@ -196,6 +198,67 @@ if(isset($electroref_page_banner) && !empty($electroref_page_banner)){
 			<div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
 				<div class="producttab-inside">
 					<h4>2 Review For Apple Watch Series 5</h4>
+					<div class="writereviewadd"><a href="#" data-toggle="modal" data-target="#writeaReview">Write a review</a></div>
+					<!-- Write a review -->
+					<div class="writereviewmodal">
+				<div class="modal fade" id="writeaReview" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+				  <div class="modal-header">
+				    <h5 class="modal-title" id="exampleModalLabel">Login to Electro-ref Tech</h5>
+				    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				      <span aria-hidden="true">&times;</span>
+				    </button>
+				  </div>
+				  <div class="modal-body">
+				    <div class="loginwritereview">
+				    	<form action="/">
+				    		<div class="form-group">
+				    			<input type="text" name="uname" class="form-control" placeholder="Username" required="">
+				    		</div>
+				    		<div class="form-group">
+				    			<input type="password" name="password" class="form-control" placeholder="********" required="">
+				    		</div>
+				    			<div class="frgotpasscondition">
+				    		 	<div class="row">
+				    		 		<div class="col-lg-6">
+				    		 			 <div class="privacy-policy">
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                            <label class="form-check-label" for="exampleCheck1"><a href="#">Remember Me</a></label>
+                                        </div>
+                                    </div>
+				    		 		</div>
+				    		 		<div class="col-lg-6">
+				    		 	    <p class="lost_password">
+                                   <a href="#" data-toggle="modal" data-target="#forgotpasswordModal">Forgot Password?</a>
+                                    </p>
+				    		 		</div>
+				    		 		
+				    		 	</div>
+				    		 </div>
+				    		 <div class="modal-footer">
+				    		 
+				    		 	<div class="row">
+				    		 		<div class="col-lg-6 pl-0">
+				    		 			<p>Not registered?<a href="#">Create an account</a></p>
+				    		 		</div>
+				    		 		<div class="col-lg-6 pr-0">
+				    		 			<div class="cancelloginin">
+				    		 		<button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+				                    <button type="button" class="btn btnlogininlectro">Login In</button>
+				                </div>
+				    		 		</div>
+				    		 	</div>
+				    		 	 
+				             </div>
+				    	</form>
+				    </div>
+				  </div>
+				</div>
+				</div>
+				</div>
+                 </div>
 					<div class="productreviewlist">
 						<ul>
 							<li>

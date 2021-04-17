@@ -1,0 +1,90 @@
+/*!
+Theme Name: Electoreftech
+Theme URI: http://underscores.me/
+Author: Indra Kr. Yadav
+Author URI: https://www.facebook.com/ydv.indrahttps://www.facebook.com/ydv.indra
+Description: Description
+Version: 1.0.0
+Tested up to: 5.4
+Requires PHP: 5.6
+License: GNU General Public License v2 or later
+License URI: LICENSE
+Text Domain: electoreftech
+Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-comments, translation-ready
+
+This theme, like WordPress, is licensed under the GPL.
+Use it to make something cool, have fun, and share what you've learned.
+
+Electoreftech is based on Underscores https://underscores.me/, (C) 2012-2020 Automattic, Inc.
+Underscores is distributed under the terms of the GNU GPL v2 or later.
+
+Normalizing styles have been helped along thanks to the fine work of
+Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
+*/
+
+/*--------------------------------------------------------------
+>>> TABLE OF CONTENTS:
+----------------------------------------------------------------
+# Generic
+	- Normalize
+	- Box sizing
+# Base
+	- Typography
+	- Elements
+	- Links
+	- Forms
+## Layouts
+# Components
+	- Navigation
+	- Posts and pages
+	- Comments
+	- Widgets
+	- Media
+	- Captions
+	- Galleries
+# plugins
+	- Jetpack infinite scroll
+# Utilities
+	- Accessibility
+	- Alignments
+
+--------------------------------------------------------------*/
+.searchlist .pre-loader {
+	position: absolute;
+	z-index: 999;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	background: rgba(255,255,255,0.4);
+	padding-top: 25%;
+  }
+
+/* Map info block  */
+#map_wrapper {
+	height: 400px;
+}
+
+#map_canvas {
+	width: 100%;
+	height: 100%;
+}
+.info_content .bg-white {
+	display: flex;
+	overflow: hidden !important;
+	background: #fff;
+  }
+  
+  .info_content .pop-map-content {
+	float: left;
+	width: 65%;
+	padding: 18px 20px 10px 20px;
+  }
+  .pop-map-content h3 {
+	font-size: 21px;
+	margin-bottom: 10px;
+	line-height: 2.2rem;
+  }
+
+  ul.electroref_toggle_wrap li:nth-child(n+6) {
+    display:none;
+}

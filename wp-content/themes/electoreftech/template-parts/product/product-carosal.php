@@ -17,7 +17,11 @@ $post_id = $args['post_id'];
             <h4><a href="<?php echo get_permalink($post_id);?>"><?php echo get_the_title($post_id); ?></a></h4>
             <?php echo electoreftech_product_rating($post_id); ?>
             <?php echo electoreftech_product_price($post_id); ?>
-            <div class="electrobtn"><a href="<?php echo get_permalink($post_id);?>">View More</a></div>
+               <div class="addtocompare">
+                <ul>
+                     <li><div class="wishcompareicon"><span><a href="#"><i class="fa fa-balance-scale" aria-hidden="true"></i></a></span><span><a href="#"><i class="fa fa-heart-o" aria-hidden="true"></i></a></span></div></li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>

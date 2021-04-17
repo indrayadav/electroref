@@ -35,7 +35,7 @@
 				}
 				?>
 			</ul>
-			<span class="btn_toggle"><a href="javascript:void(0);"> Show more </a> </span>
+			<span class="btn_toggle"><a href="javascript:void(0);"> Show more<i class="fa fa-plus-square-o" aria-hidden="true"></i></a> </span>
 		</div>
 	</div>
 	<?php } ?>
@@ -68,7 +68,7 @@
 						}
 						?>
 					</ul>
-					<span class="btn_toggle"><a href="javascript:void(0);"> Show more </a> </span>
+					<span class="btn_toggle"><a href="javascript:void(0);"> Show more<i class="fa fa-plus-square-o" aria-hidden="true"></i> </a> </span>
 				</div>
 	</div>
 						

@@ -89,15 +89,19 @@ $term = get_term_by( 'id', $t_id, 'product_cat' );
 							endwhile;
 					?>
 					</div>
-			</div>
 
-					
-			<?php  	if ( function_exists( 'electoreftech_pagination' ) ) {
-						echo '<div class="pagination-block">';
+					<?php
+						if ( function_exists( 'electoreftech_pagination' ) ) {
+						echo '<div class="pagination-block d-flex justify-content-center">';
 						electoreftech_pagination();
 						echo '</div>';
 					}
 					wp_reset_query(); 
+					?>
+			</div>
+
+					
+			<?php  
 				} else {
 					echo '<p> No products were found matching your selection.</p>';
 				}

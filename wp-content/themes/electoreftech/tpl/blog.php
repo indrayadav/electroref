@@ -74,7 +74,7 @@ if(isset($electroref_page_banner) && !empty($electroref_page_banner)){
 				
 				<?php 
 					if ( function_exists( 'electoreftech_pagination' ) ) {
-						echo '<div class="pagination-block">';
+						echo '<div class="pagination-block d-flex justify-content-center">';
 						electoreftech_pagination();
 						echo '</div>';
 					}

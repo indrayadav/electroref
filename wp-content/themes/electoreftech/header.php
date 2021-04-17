@@ -48,52 +48,25 @@
                         <div class="col-md-4 col-lg-6 d-none d-sm-block">
                             <div class="minicart">
                                 <div class="minicartinner">
-                                    <div class="carticon">
+                                      <ul>
+                                        <li>     <div class="carticon">
                                         <a href="#">
                                             <span class="carticoninner">
-                                                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                                <i class="fa fa-balance-scale" aria-hidden="true"></i>
                                                 <span class="cartcount bigcounter">2</span>
                                             </span>
-                                            <span class="itemtotal shoppingcarttotal"><span>Rs.100.00</span></span>
                                         </a>
-                                    </div>
-                                    <div class="cartdropdown">
-                                        <div class="minicartitem">
-                                            <div class="minicartimg">
-                                                <a href="#"><img src="<?php echo get_template_directory_uri(); ?>/img/foodproduct-7.jpg" alt="">
-                                                </a>
-                                            </div>
-                                            <div class="cartinfo">
-                                                <h5><a href="#">Cream Colored luctus pulvinar</a></h5>
-                                                <span class="cartprice"><span class="money">Rs.50.00</span></span>
-                                            </div>
-                                            <div class="cart_remove">
-                                                <a href="#"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="minicartitem">
-                                            <div class="minicartimg">
-                                                <a href="#"><img src="<?php echo get_template_directory_uri(); ?>/img/foodproduct-7.jpg" alt="">
-                                                </a>
-                                            </div>
-                                            <div class="cartinfo">
-                                                <h5><a href="#">Cream Colored luctus pulvinar</a></h5>
-                                                <span class="cartprice"><span class="money">Rs.50.00</span></span>
-                                            </div>
-                                            <div class="cart_remove">
-                                                <a href="#"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="pricecontent">
-                                            <div class="carttotalprice">
-                                                <span class="label">Total</span>
-                                                <span class="value shoppingcarttotal"><span class="money">Rs.100.00</span></span>
-                                            </div>
-                                        </div>
-                                        <div class="mincartcheckout">
-                                            <a href="#">CheckOut</a>
-                                        </div>
-                                    </div>
+                                    </div></li>
+                                        <li>     <div class="carticon">
+                                        <a href="#">
+                                            <span class="carticoninner">
+                                                <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                                <span class="cartcount bigcounter">2</span>
+                                            </span>
+                                        </a>
+                                    </div></li>
+                                    </ul>
+                               
                                 </div>
                             </div>
                         </div>
@@ -142,8 +115,8 @@
                             <div class="nav-menus-wrapper">
                                 <div class="navbarmenuleft"><img class="img-fluid" alt="Electroref Tech" src="<?php echo get_template_directory_uri(); ?>/img/electro-ref-techlogo11.png"></div>
                                 <ul class="nav-menu align-to-right">
-                                    <li><a href="#">About</a></li>
-                                    <li><a href="#">Services</a></li>
+                                    <li><a href="<?php echo esc_url( home_url( '/about-electro-ref-tech-ac-nepal/' ) ); ?>">About</a></li>
+                                    <li><a href="<?php echo esc_url( home_url( '/services-repair-maintenance-kathmandu-nepal/' ) ); ?>">Services</a></li>
                                     <li><a href="#">Products</a>
                                     <div class="megamenu-panel">
                                             <?php 
@@ -225,7 +198,7 @@
                                         </div>
                                     </li>
                                     <li><a href="#">Brands</a>
-                                        <div class="megamenu-panel">
+                                        <div class="megamenu-panel brandmenupanel">
                                             <?php 
                                                 $brand1 = [];
                                                 $brand2 = [];
@@ -274,7 +247,7 @@
                                                 <?php  if($brand1) {
                                                     echo '<ul class="megamenu-list list-col-4">';
                                                     foreach($brand1 as $b){
-                                                        echo '<li><a href="'. $b['url'] .'"> <img src="'. $b['thumb'].'" alt="'. $b['name'] .'"> '. $b['name'].'</a></li>';
+                                                        echo '<li><a href="'. $b['url'] .'"> <img src="'. $b['thumb'].'" alt="'. $b['name'] .'"> <span>'. $b['name'].'</span></a></li>';
                                                     }
                                                     echo '</ul>';
                                                 } 
@@ -283,7 +256,7 @@
                                                 if($brand2) {
                                                     echo '<ul class="megamenu-list list-col-4">';
                                                     foreach($brand2 as $b){
-                                                        echo '<li><a href="'. $b['url'] .'">  <img src="'. $b['thumb'].'" alt="'. $b['name'] .'"> '. $b['name'].'</a></li>';
+                                                        echo '<li><a href="'. $b['url'] .'"> <img src="'. $b['thumb'].'" alt="'. $b['name'] .'"> <span>'. $b['name'].'</span></a></li>';
                                                     }
                                                     echo '</ul>';
                                                 } 
@@ -293,7 +266,7 @@
                                                 if($brand3) {
                                                     echo '<ul class="megamenu-list list-col-4">';
                                                     foreach($brand3 as $b){
-                                                        echo '<li><a href="'. $b['url'] .'">  <img src="'. $b['thumb'].'" alt="'. $b['name'] .'"> '. $b['name'].'</a></li>';
+                                                      echo '<li><a href="'. $b['url'] .'"> <img src="'. $b['thumb'].'" alt="'. $b['name'] .'"> <span>'. $b['name'].'</span></a></li>';
                                                     }
                                                     echo '</ul>';
                                                 } 
@@ -303,7 +276,7 @@
                                                 if($brand4) {
                                                     echo '<ul class="megamenu-list list-col-4">';
                                                     foreach($brand4 as $b){
-                                                        echo '<li><a href="'. $b['url'] .'">  <img src="'. $b['thumb'].'" alt="'. $b['name'] .'"> '. $b['name'].'</a></li>';
+                                                        echo '<li><a href="'. $b['url'] .'"> <img src="'. $b['thumb'].'" alt="'. $b['name'] .'"> <span>'. $b['name'].'</span></a></li>';
                                                     }
                                                     echo '</ul>';
                                                 } 
@@ -312,7 +285,7 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li><a href="#">Blog</a></li>
+                                    <li><a href="<?php echo esc_url( home_url( '/blog-nepal/' ) ); ?>">Blog</a></li>
                                     <li><a href="<?php echo home_url( '/contact-electro-ref-tech-nepal/' ); ?>">Contact</a></li>
                                 </ul>
                             </div>

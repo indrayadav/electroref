@@ -154,8 +154,8 @@ h1,h2,h3,h4,h5,h6{font-weight: 700;/* font-family: 'Courgette', cursive; */}
 .minicart:hover .cartdropdown{opacity:1;visibility:visible;-webkit-transform:scaleY(1);transform:scaleY(1);}
 .minicartinner{padding:9px 0px 0px 0px;position:relative;}
 .carticoninner{position:relative;}
-.carticoninner i{color:#fff;font-size:20px;}
-.carticoninner span.cartcount{background:#ed1c24;border-radius:100%;color:#ffffff;font-size:12px;height:20px;left:10px;line-height:20px;position:absolute;text-align:center;top:-10px;width:20px;}
+.carticoninner i{color:#fff;font-size:24px;}
+.carticoninner span.cartcount{background:#ed1c24;border-radius:100%;color:#ffffff;font-size:12px;height:20px;left:17px;line-height:20px;position:absolute;text-align:center;top:-11px;width:20px;}
 .carticon .itemtotal{padding-left:9px;}
 .minicartitem{border-bottom:1px solid #ededed;overflow:hidden;padding:10px 0;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;position:relative;}
 .minicartitem .minicartimg{max-width:70px;position:relative;}
@@ -361,7 +361,9 @@ h1,h2,h3,h4,h5,h6{font-weight: 700;/* font-family: 'Courgette', cursive; */}
 /* Media Query Mega Menu */
 @media only screen and (min-width:320px) and (max-width:767px){
 .nav-dropdown > li > a,.megamenu-list > li > a{width:100%}}
-
+/* Add CSS 4/17/2021 */
+.brandmenupanel .megamenu-list > li > a::before{display: none !important;}
+.brandmenupanel .megamenu-list > li > a span{display: block;}
 
 
 
@@ -444,10 +446,10 @@ h1,h2,h3,h4,h5,h6{font-weight: 700;/* font-family: 'Courgette', cursive; */}
 .productinfo ul li::before{color:#666;content:"\f105";font-family:FontAwesome;font-size:16px;margin-right:6px;}
 
 .product-price h4{font-size: 22px;color: #f25302;}
-.product-price h4 span{font-size: 15px;color: #888;padding-left: 10px;text-decoration: line-through;}
-.share-product{margin:45px 0px 45px 0px;border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:15px 0px 17px 0px;}
+.product-price h4 span{font-size: 15px;color: #888;padding-left: 0px;text-decoration: line-through;}
+.share-product{margin:25px 0px 55px 0px;}
 .share-product ul{list-style-type: none;}
-.share-product ul li{display: inline-block;padding-right: 15px;}
+.share-product ul li{display: inline-block;padding-right: 2px;}
 .share-product ul li:last-child{padding-right: 0px;}
 .share-product ul li a i{padding-right: 5px;}
 .share-product ul li a.facebookshare{background-color: #3b5998;padding:8px 16px;color: #fff;text-transform: uppercase;font-size: 12px;}
@@ -505,8 +507,8 @@ p.comment-date i{padding-right: 8px;color: #f25302;}
 .prodrating ul li:last-child a{color: #999;}
 .mksproductdesc h4{position:relative;height:42px;line-height:18px;white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;text-overflow:ellipsis;overflow:hidden;margin-bottom: 15px;}
 .mksproductdesc h4 a{font-size:14px;color:#212121;font-weight: 400;}
-.priceproddel{color: #ed1d24;font-weight: 700;font-size: 20px;}
-.priceproddel span{color: #999;text-decoration: line-through;font-size: 14px;font-weight: 400;padding-left: 7px;}
+.priceproddel{color: #ed1d24;font-weight: 700;font-size: 15px;}
+.priceproddel span{color: #999;text-decoration: line-through;font-size: 12px;font-weight: 400;padding-left: 0px;display: block;}
 .pharprodbox{-ms-transition:all 0.3s ease;-o-transition:all 0.3s ease;-moz-transition:all 0.3s ease;-webkit-transition:all 0.3s ease;transition:all 0.3s ease;margin: 10px 0px 30px 0px;border:1px solid #ddd;}
 .pharprodbox:hover{box-shadow:0px 0px 15px 0px rgba(0,0,0,.08);-ms-transform:translateY(-10px);-o-transform:translateY(-10px);-moz-transform:translateY(-10px);-webkit-transform:translateY(-10px);transform:translateY(-10px);}
 .pharprodimg{height: 175px;position: relative;overflow: hidden;}
@@ -515,7 +517,7 @@ p.comment-date i{padding-right: 8px;color: #f25302;}
 .pharprodbox h4 a{color: #333;font-size: 14px;}
 .pharprodbox h4 a:hover{color: #2349ac;}
 .pharprodesc{padding: 15px 10px 10px 10px;}
-.pharproductLists .priceproddel{font-size: 14px;color: #000;}
+.pharproductLists .priceproddel{font-size: 15px;}
 .pharproductLists .priceproddel span{font-size: 12px;}
 .pharproductLists .prodrating ul li a{font-size: 11px;}
 .productsale{position:absolute;right:0;top:15px;margin:0 auto;display:inline-block;text-transform:uppercase;line-height:normal;font-size:14px;border:none;background:#ec2c2c;color:#fff;padding:0 5px;font-weight: 700;}
@@ -725,7 +727,7 @@ p.comment-date i{padding-right: 8px;color: #f25302;}
 /*--------------------------------------------------------------
 # Brand
 --------------------------------------------------------------*/
-#our-clients{padding:0px 0px 50px 0px;}
+#our-clients{padding:30px 0px 50px 0px;}
 .client-img{text-align:center;}
 .client-img img{max-width:120px;}
 #our-clients .owl-nav{display: none;}
@@ -819,15 +821,23 @@ p.comment-date i{padding-right: 8px;color: #f25302;}
 .order-by{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;float: right;}
 .order-by .form-control{width: 220px;margin-left: 20px;border-radius: 0px;}
 p.product-result-count{margin:0px;padding-top: 6px;font-weight: 600;}
-
-
-
 #booknowModal{z-index:99999;}
 .booknow-model .form-control{display:block;width:100%;height:40px;padding:0px 10px;font-size:14px;line-height:1.42857143;color:#888;background-color:#fff;background-image:none;border-radius:0px;box-shadow:none;}
 #booknowbutton h4.modal-title{color:#ff6600;font-weight: 600;font-size: 20px;}
 .booknow-form .form-control{display:block;width:100%;height:auto;padding:8px 10px;font-size:14px;line-height:1.42857143;color:#888;background-color:#fff;background-image:none;border-radius:0px;box-shadow:none;}
 .send-message input{background:#ff6600 none repeat scroll 0 0;border:medium none;color:#ffffff;font-family:Montserrat;font-size:14px;font-weight:600;line-height:1;padding:17px 30px;text-transform:uppercase;transition:.3s;}
 #booknowModal h5.modal-title{color: #f25302;}
+/* Add CSS 4/17/2021 */
+.btn_toggle{margin-top: 20px;display: block;}
+.btn_toggle a{color: #333;text-transform: uppercase;}
+.btn_toggle a i{padding-left: 6px;}
+.btn_toggle a:hover{color: #f25302;}
+/* Pagination */
+.pagination-block{display: block;margin:0 auto;}
+.pagination-block ul li{padding-right: 15px;}
+.pagination-block ul li:last-child{padding-right: 0px;}
+.pagination-block ul li a{color: #333;font-size: 16px;}
+.pagination-block ul li a:hover{color: #f25302;}
 
 
 
@@ -928,6 +938,103 @@ p.product-result-count{margin:0px;padding-top: 6px;font-weight: 600;}
 .top_postlists .post_wrap a{font-weight:600;}
 .top_postlists .post_wrap a:hover{color:#da2128;}
 
+.widget_search .search-field{box-shadow:none;font-size:14px;height:auto;padding:.875rem .75rem;border-radius:0px;transition:border-color .15s ease-in-out,box-shadow .15s ease-in-out;font-weight:400;line-height:1.5;color:#495057;background-color:#fff;background-clip:padding-box;border:1px solid #ced4da;display:block;width: 270px;}
+.widget_search .search-submit{background-color:#f25302;color:#fff;border-radius:0px;display:inline-block;font-weight:400;text-align:center;transition:color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;border:1px solid transparent;padding:.775rem .75rem;font-size:1rem;line-height:1.5;user-select:none;text-align:center;}
+.widget_search .search-submit:hover{background-color: #2349ac;}
+.facebookpagelctro a{color: #333;}
+.widget_archive ul,.widget_categories ul{list-style-type: none;padding:0px;margin:0px;}
+.widget_archive ul li,.widget_categories ul li{padding-bottom: 10px;}
+.widget_archive ul li:last-child,.widget_categories ul li:last-child{padding-bottom: 0px;}
+.widget_archive ul li a,.widget_categories ul li a{color: #333;}
+.widget_archive ul li a::before,.widget_categories ul li a::before{content:"\f105";font-family:FontAwesome;display:inline-block!important;cursor:pointer;line-height:20px;color:#333;margin-right:6px;}
+.widget_archive ul li a:hover,.widget_categories ul li a:hover{color:#da2128;}
+.widget_categories .right-side-title{margin-top: 20px;margin-bottom: 15px;}
+
+
+
+/*--------------------------------------------------------------
+# My Account
+--------------------------------------------------------------*/
+#my-account{margin:50px 0px;}
+.lr-title h4 { position:relative; font-size:20px; padding:0 0 10px 0; margin:0 0 25px 0; color:#000; border-bottom:2px solid #ebebeb;font-weight: 500;}
+.lr-title h4 span { position:absolute; left:0; bottom:-2px; height:2px; background:#f25302; width:90px; }
+.lr-1{padding-right: 8.070em;}
+.lr-2{padding-left: 8.070em;}
+.loginright{position: relative;}
+.ortext-middle{position:absolute;right:50%;top:50%;transform:translate(50%);width:50px;height:50px;line-height:50px;text-align:center;border-radius:50%;border:1px solid #f25302;background-color:#f25302;color:#fff;z-index:1}
+.loginright::before{border-right:1px solid #ddd;height:100%;position:absolute;content:' ';right:50%;top:0;}
+.login-register-box a{color:#f25302;font-size:14px;}
+.login-register-box p{font-size: 14px;margin-bottom: 30px;}
+.login-register-box label{font-weight: 700;font-size: 15px;}
+.login-register-box label span{color: #f25302;}
+.login-register-box .form-control{height:auto;padding:.5rem .75rem;border-radius:5px;}
+.login-reg-button button{font-size:.875rem;/* border-radius:1.571em; */border-radius:5px;padding:.75em 2.07em;border-width:0;display:inline-block;color:#fff;background-color:#f25302;border-color:#f25302;transition:all .2s ease-in-out;font-weight: 600;}
+.login-reg-button button:hover{background-color: #2349ac;}
+.form-box form{border:1px solid #d3ced2;padding:20px;margin:2em 0;text-align:left;border-radius:5px;}
+.orlogin{text-align:left;position:relative;margin:20px 0;}
+.orlogin::before{content:"";position:absolute;left:0;top:50%;right:0;border-top:1px solid #ddd;-moz-transform:translateY(-50%);-webkit-transform:translateY(-50%);transform:translateY(-50%);}
+.orlogin span{background-color:#fff;padding:0 15px;position:relative;text-transform:uppercase;}
+.login-width{margin-bottom: 20px;}
+.login-width ul{list-style-type: none;}
+.login-width ul li{display: inline-block;margin-right: 20px;}
+.login-width ul li:last-child{margin-right: 0px;}
+.login-width ul li a{border-radius:5px;padding:10px 20px!important;display:block;border-width:1px;cursor:pointer;line-height:normal;text-transform:capitalize;transition:all 0.3s ease-in-out;text-align:center;font-weight:400;font-size:1rem;}
+.login-width ul li a i{padding-right: 5px;}
+li.facebook-login a{background:#3b5998;border-color:#3b5998;color:#fff;}
+li.facebook-login a:hover{background-color: #294276;border-color: #294276;}
+li.google-login a{background:#d33d2b;border-color:#d33d2b;color:#fff;}
+li.google-login a:hover{background-color: #ae2717;border-color: #ae2717;}
+/* Forgot Password? */
+.modal#forgotpasswordModal{z-index:9999;}
+.forgot-password-box{text-align: center;}
+#forgotpasswordModal .modal-header{padding:0.5rem 1rem;border:none;}
+#forgotpasswordModal .modal-header .close{margin:-0.77rem -1rem -1rem auto;opacity: 1;}
+#forgotpasswordModal .modal-header h5{color:#ea2425;font-weight:700;}
+#forgotpasswordModal .modal-header img{max-width:45px;}
+.passrest-info{margin-bottom: 30px;}
+.passrest-info img{max-width: 200px;display: block;margin:0 auto 60px auto;}
+.reset-info h3{font-size: 18px;font-weight: 700;margin-bottom: 15px;}
+.reset-info p{font-size: 13px;color: #918a8a;}
+.reset-form label{float: left;font-size: 14px;}
+.reset-form .form-control{font-size: 14px;}
+.reset-form  .login-reg-button{margin-top: 20px;}
+.facebooklogin{margin-top: 10px;}
+.facebooklogin a{background-color: #4867AA;padding:8px 16px;color: #fff;font-weight: 600;border-radius: 5px;}
+.facebooklogin a:hover{background-color: #f25302;}
+.facebooklogin a i{padding-right: 6px;}
+/* Write a review */
+.writereviewadd{float: right;margin-top: -50px;}
+.writereviewadd a{border:1px solid #333;color: #333;padding:8px 20px;font-weight: 600;border-radius: 4px;}
+.writereviewadd a:hover{background-color: #f25302;color: #fff;border:1px solid #f25302;}
+.writereviewmodal .modal{z-index: 9999;}
+.writereviewmodal .modal-dialog{max-width: 640px;}
+.btnlogininlectro{background-color: #f25302;border-color: #f25302;color: #fff;}
+.btnlogininlectro:hover{background-color: #2349ac;border-color: #2349ac;color: #fff;}
+.loginwritereview .modal-footer{padding-bottom: 0px;display: block;padding-left: 0px;padding-right: 0px;}
+.loginwritereview .modal-footer button{font-weight: 700;}
+.loginwritereview .form-control{height:auto;padding:.675rem .75rem;}
+.loginwritereview .btn{padding:.575rem .95rem;}
+.cancelloginin{float: right;}
+.loginwritereview .modal-footer p{margin:10px 0px 0px 0px;}
+.loginwritereview .modal-footer p a{color: #f25302;padding-left: 2px;}
+.frgotpasscondition{padding-bottom: 10px;}
+.frgotpasscondition p{margin:0px;}
+.frgotpasscondition .lost_password{float: right;}
+.frgotpasscondition a{color: #333;}
+.writereviewmodal h5.modal-title{font-size: 24px;font-weight: 400;}
+.addtocompare{margin: 25px 0px 10px 0px;}
+.addtocompare ul{list-style-type: none;padding:0px;margin:0px;}
+.addtocompare ul li{display: inline-block;padding-right: 10px;}
+/* .addtocompare ul li:first-child a{padding:6px 12px;color: #333;border:1px solid #555;} */
+.addtocompare ul li:last-child{padding-right: 0px;border:1px solid #777;padding:6px 8px;}
+.addtocompare ul li span{/* border:1px solid #434343; */padding:0px 8px;}
+.addtocompare ul li span:first-child{border-right:1px solid #777;}
+.addtocompare ul li span a{color: #333;}
+.addtocompare ul li a:hover{color: #f25302;}
+.minicartinner ul li{padding-right: 20px;}
+.wishlistprodiocn{padding-top: 2px;text-align: center;}
+.wishlistprodiocn a{padding:8px 16px;color: #fff;background-color: #f25302;text-transform: uppercase;font-size: 12px;}
+
 
 
 /*--------------------------------------------------------------
@@ -968,6 +1075,18 @@ p.product-result-count{margin:0px;padding-top: 6px;font-weight: 600;}
 
 
 /*--------------------------------------------------------------
+# Compare
+--------------------------------------------------------------*/
+#electroprod-compare{padding:50px 0px;}
+.compareproductlistbox .table tr th img{max-width: 70px;margin-bottom: 10px;}
+.compareproductlistbox .electrobtn{margin:10px 0px;}
+.pharprodesccompare h4{line-height:18px;font-weight:400;}
+.pharprodesccompare h4 a{color:#333;font-size:14px;}
+
+
+
+
+/*--------------------------------------------------------------
 # Responsive
 --------------------------------------------------------------*/
 @media (min-width:320px) and (max-width:767px)
@@ -990,7 +1109,7 @@ p.product-result-count{margin:0px;padding-top: 6px;font-weight: 600;}
 .site-search-form .input-group .input-group-addon i{font-size:25px;padding-top: 12px;}
 .megamenu-panel{background-color: #000;}
 .megamenu-list > li > a{color: #fff;}
-.megamenu-list > li > a:hover{color: #f25302;}
+.megamenu-list > li > a:hover{color: #f25302;padding-left: 14px;}
 .navbarmenuleft{display:block;padding-left:30px;padding-top:10px;color:#fff;font-size:20px;font-weight:700;text-transform: uppercase;}
 .navbarmenuleft img{max-width: 210px;margin-bottom: 10px;}
 .pharprodbox{text-align: center;}

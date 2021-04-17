@@ -58,29 +58,32 @@ class JustoRecentPostsWidget extends WP_Widget {
  		$recent_posts = new WP_Query( $args );
  		$counter = 1;
  		if ( $recent_posts->have_posts() ) {
- 			echo '<ul class="recent-posts">';
+ 			echo '<div class="recent-blog-lists">';
  			while ( $recent_posts->have_posts() ) : $recent_posts->the_post();
 
        $widget_post_heading = ' jt-pl-0';
        $widget_post_date = ' jt-pl-0';
  			?>
-      <li>
-        <?php if ( has_post_thumbnail() ) { ?>
-          <div class="widget-posts-image">
-          <a href="<?php echo get_the_permalink(); ?>"><?php the_post_thumbnail( array( 100, 100 ) ); ?> </a>
-									</div>
 
-         <?php } ?>
-         <div class="widget-posts-body">
-										<div class="widget-posts-meta"><?php echo get_the_date( 'j F, Y' ); ?></div>
-										<h6 class="widget-posts-title"><a href="<?php echo get_the_permalink(); ?>"> <?php the_title(); ?> </a></h6>
-					</div>
-      </li>
+        <div class="recentblistbox">
+
+              <div class="media">
+                <?php if ( has_post_thumbnail() ) { ?>
+                  <div class="blogrightimg">
+                      <a href="<?php echo get_the_permalink(); ?>"><?php the_post_thumbnail( array( 100, 100 ) ); ?> </a>
+                  </div>
+                   <?php } ?>
+                  <div class="media-body">
+                      <h5 class="mt-0"><a href="<?php echo get_the_permalink(); ?>"> <?php the_title(); ?> </a></h5>
+                      <p><i class="fa fa-clock-o" aria-hidden="true"></i><?php echo get_the_date( 'j F, Y' ); ?></p>
+                  </div>
+              </div>
+      </div>
 
  			<?php
  			$counter++;
  			endwhile;
- 			echo '</ul>';
+ 			echo '</div>';
 
  				wp_reset_query();
  			}
