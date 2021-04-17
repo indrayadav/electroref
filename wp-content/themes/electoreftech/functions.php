@@ -144,6 +144,7 @@ function electoreftech_scripts() {
 	wp_enqueue_style( 'bootstrap.min', get_template_directory_uri() . '/css/bootstrap.min.css', _S_VERSION );
 	wp_enqueue_style( 'nouislider', 'https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/10.0.0/nouislider.css' );
 	wp_enqueue_style( 'theme', get_template_directory_uri() . '/css/theme.css' );
+	wp_enqueue_style( 'xzoom', get_template_directory_uri() . '/css/xzoom.css' );
 	wp_enqueue_style( 'chosen', get_template_directory_uri() . '/css/chosen.css', array(), _S_VERSION  );
 
 	wp_enqueue_style( 'electoreftech-main', get_template_directory_uri() . '/css/main.css', _S_VERSION );
@@ -151,7 +152,7 @@ function electoreftech_scripts() {
 	wp_enqueue_style( 'electoreftech-style', get_stylesheet_uri(), array(), _S_VERSION );
 	wp_style_add_data( 'electoreftech-style', 'rtl', 'replace' );
 
-	wp_enqueue_script( 'jquery-3.5.1.min', get_template_directory_uri() . '/js/jquery-3.5.1.min.js', array(), _S_VERSION, true );
+	//wp_enqueue_script( 'jquery-3.5.1.min', get_template_directory_uri() . '/js/jquery-3.5.1.min.js', array(), _S_VERSION, true );
 	wp_enqueue_script( 'bootstrap.min', get_template_directory_uri() . '/js/bootstrap.min.js', array(), _S_VERSION, true );
 	wp_enqueue_script( 'owl.carousel', get_template_directory_uri() . '/js/owl.carousel.js', array(), _S_VERSION, true );
 	wp_enqueue_script( 'electoreftech-custom', get_template_directory_uri() . '/js/custom.js', array(), _S_VERSION, true );
@@ -159,7 +160,8 @@ function electoreftech_scripts() {
 
 	wp_enqueue_script( 'nouislider', 'https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/10.0.0/nouislider.js', array(), '20190207', true );
 	wp_enqueue_script( 'chosen.jquery', get_template_directory_uri() . '/js/chosen.jquery.js', array(), '20190207', true );
-
+	
+	wp_enqueue_script( 'xzoom', get_template_directory_uri() . '/js/xzoom.js', array(), '20190207', true );
 	wp_enqueue_script( 'electoreftech-param', get_template_directory_uri() . '/js/electroref.js', array(), '20190207', true );
 	
 	$electroref_params = array(

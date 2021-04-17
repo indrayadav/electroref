@@ -146,6 +146,15 @@ $cmb_term = new_cmb2_box( array(
 			'type' 			=> 'file',
 			'column' 		=> array( 'position' => 8 ),
 		) );
+
+		$cmb_term->add_field( array(
+			'name' 			=> esc_html__( 'Featured Brand', 'cmb2' ),
+			'desc' 			=> esc_html__( 'choose this brand to get on featured list.', 'cmb2' ),
+			'id'   			=> $prefix . 'featured',
+			'type' 			=> 'checkbox',
+			'column' 		=> array( 'position' => 8 ),
+		) );
+		
 	// Add other metaboxes as needed
 }
 

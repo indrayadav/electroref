@@ -424,6 +424,8 @@ function product_columns($columns){
     
      $temp['cb'] = 'cb';
      $temp['featured_image'] = 'Images';
+     $temp['title'] = 'Title';
+     $temp['post_views_count'] = 'Views';
      $columns = array_merge($temp,$columns);;
 
     return $columns; 
@@ -432,6 +434,10 @@ function product_columns($columns){
 function product_custom_columns($column_name, $id){
     if($column_name == 'featured_image'){
         echo the_post_thumbnail( 'thumbnail' );
+    }
+
+    if($column_name == 'post_views_count'){
+        echo electoreftech_get_post_view($id). ' times';
     }
 }
 
@@ -486,5 +492,17 @@ if ( ! function_exists( 'electoreftech_product_offer_tag' ) ) {
         
         return $content;
     }
+}
+
+function electoreftech_get_post_view($post_id) {
+    $count = get_post_meta( $post_id, 'post_views_count', true );
+    if(empty($count)){ $count = 0; }
+    return "$count";
+}
+function electoreftech_set_post_view($post_id) {
+    $key = 'post_views_count';
+    $count = (int) get_post_meta( $post_id, $key, true );
+    $count++;
+    update_post_meta( $post_id, $key, $count );
 }
 ?>

@@ -12,6 +12,20 @@ function product_post_meta() {
       ) );
 
       $cmb_product->add_field( array(
+        'name' => esc_html__( 'Additional Info', 'cmb2' ),
+        'desc' => esc_html__( 'Add product additional info.', 'cmb2' ),
+        'id'   => $prefix . 'add_info',
+        'type' => 'wysiwyg',
+      ) );
+
+      $cmb_product->add_field( array(
+        'name' => esc_html__( 'Featured Product', 'cmb2' ),
+        'desc' => 'choose to display in featured list (optional)',
+        'id'   => $prefix . 'featured',
+        'type' => 'checkbox',
+    ) );
+
+      $cmb_product->add_field( array(
         'name'             => esc_html__( 'Product Type', 'cmb2' ),
         'desc'             => esc_html__( 'Add product type(New/ Used)', 'cmb2' ),
         'id'               => $prefix . 'type',

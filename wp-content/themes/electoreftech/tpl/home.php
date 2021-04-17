@@ -108,7 +108,8 @@ wp_reset_query(); ?>
 	$args = array(
 		'posts_per_page' => 14,
 		'post_type' => 'product',	
-		'orderby' => array( 'rand', 'name' ),
+		'orderby' => 'meta_value_num',
+		'meta_key' => 'product_featured',
 		'order'   => 'DESC',
 );
 $wp_query = new WP_Query( $args );	
@@ -180,7 +181,8 @@ wp_reset_query();
 	$args = array(
 		'posts_per_page' => 14,
 		'post_type' => 'product',	
-		'orderby' => array( 'rand', 'name' ),
+		'orderby' => 'meta_value_num',
+		'meta_key' => 'post_views_count', 
 		'order'   => 'DESC',
 );
 $wp_query = new WP_Query( $args );	
@@ -189,7 +191,7 @@ if ( $wp_query->have_posts() ) {
 <section id="best-selllers">
 	<div class="container">
 		<div class="mainfoodtitle">
-			<h2>Best Sellers</h2>
+			<h2>Best Deals</h2>
 		</div>
 		<div class="row">
 			<div class="col-lg-12">

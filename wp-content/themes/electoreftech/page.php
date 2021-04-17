@@ -13,26 +13,29 @@
  */
 
 get_header();
+
+while ( have_posts() ) :
+	the_post();
 ?>
 
-	<main id="primary" class="site-main">
-
+<section id="breadcrumb-nf">
+	<div class="container">
+	<h1><?php echo get_the_title(); ?></h1>
 		<?php
-		while ( have_posts() ) :
-			the_post();
+			if ( function_exists( 'electoreftech_breadcrumbs' ) ) {
+				electoreftech_breadcrumbs();
+			}
+			?>
+	</div>
+</section>
 
-			get_template_part( 'template-parts/content', 'page' );
+<section id="detail-page">
+	<div class="container">
+		<h2 class="page-title"><?php the_title(); ?></h2>
+		<p><?php the_content(); ?></p>
+	</div>
+</section>  
 
-			// If comments are open or we have at least one comment, load up the comment template.
-			if ( comments_open() || get_comments_number() ) :
-				comments_template();
-			endif;
 
-		endwhile; // End of the loop.
-		?>
-
-	</main><!-- #main -->
-
-<?php
-get_sidebar();
+<?php endwhile;
 get_footer();

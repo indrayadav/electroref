@@ -126,6 +126,12 @@ Kupondol, Lalitpur, Nepal </p>
 </footer>
 
 <?php wp_footer(); ?>
+	<script type="text/javascript">
+        jQuery(document).ready( function ($) {
+            $('.xzoom2, .xzoom-gallery2').xzoom();
+
+        });
+    </script>
 
 </body>
 </html>

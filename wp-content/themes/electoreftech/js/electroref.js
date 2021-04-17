@@ -11,12 +11,12 @@
         $("#filter_prod_cat").data("placeholder","Select Category").chosen();
         $("#filter_sort_product").data("placeholder","Sort product").chosen();
 
-        FB.init({
-            appId: 220198652759638,
-            status: true,
-            cookie: true,
-            xfbml: true
-        });
+        // FB.init({
+        //     appId: 220198652759638,
+        //     status: true,
+        //     cookie: true,
+        //     xfbml: true
+        // });
     });
 
     /* Filter page price slider */
@@ -49,6 +49,15 @@
         });
 
     }
+
+    // Toggle Nav
+    $(".cate_lists").on("click", "span.btn_toggle a", function() {
+        var veiw_wrap = $(this).closest('.cate_lists');
+        veiw_wrap.find('.electroref_toggle_wrap li:hidden').slice(0, 5).show('slow');
+        if (veiw_wrap.find('.electroref_toggle_wrap li').length == veiw_wrap.find('.electroref_toggle_wrap li:visible').length) {
+            $(this).hide();
+        }
+    });
 
     /* Load More Ajax
     .......................................... */
@@ -183,6 +192,7 @@
         return false;
     
     }  
+    
 
 
 })(jQuery);	

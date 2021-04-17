@@ -24,9 +24,22 @@ while ( have_posts() ) :
 	}
  ?>
 
-  <section>
-	<?php the_content();?>
-  </section      
+<section id="breadcrumb-nf">
+	<div class="container">
+	<h1><?php echo get_the_title(); ?></h1>
+		<?php
+			if ( function_exists( 'electoreftech_breadcrumbs' ) ) {
+				electoreftech_breadcrumbs();
+			}
+			?>
+	</div>
+</section>
+
+<section class="contact-3-area contact-2 contact-3 pt-120 pb-50">
+    <div class="container">
+		<?php the_content();?>
+	</div>
+</section      
 
 
 <?php 

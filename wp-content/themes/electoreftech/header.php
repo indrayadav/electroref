@@ -144,7 +144,86 @@
                                 <ul class="nav-menu align-to-right">
                                     <li><a href="#">About</a></li>
                                     <li><a href="#">Services</a></li>
-                                    <li><a href="<?php echo home_url( '/products-air-conditioner-price-nepal/' ); ?>">Products</a></li>
+                                    <li><a href="#">Products</a>
+                                    <div class="megamenu-panel">
+                                            <?php 
+                                                $prod_cat1 = [];
+                                                $prod_cat2 = [];
+                                                $prod_cat3 = [];
+                                                $prod_cat4 = [];
+                                                $cnt = 0;
+
+                                                $terms = get_terms( array(
+                                                    'taxonomy' => 'product_cat',
+                                                    'hide_empty' => true,
+                                                ) );
+                                                if ( ! empty( $terms ) && ! is_wp_error( $terms ) ){
+                                                    foreach ( $terms as $term ) { 
+                                                        $cnt++;
+                                                        $prod_cat_data = [
+                                                            'name' => $term->name,
+                                                            'url' => $brand_url = home_url( '/products-air-conditioner-price-nepal/' ) . '?prod_cat='.  $term->slug,
+                                                        ];
+
+                                                        if($cnt == 2){
+                                                            $prod_cat2[] = $prod_cat_data;
+                                                        } elseif ($cnt == 3){                                                    
+                                                            $prod_cat3[] = $prod_cat_data;
+                                                        } elseif ($cnt == 4){     
+                                                            $prod_cat4[] = $prod_cat_data;
+                                                        }else {  
+                                                            $prod_cat1[] = $prod_cat_data;
+                                                        }
+
+
+                                                        if($cnt %4 == 0){
+                                                            $cnt = 0;
+                                                        }
+                                                    }
+                                                }
+                                            ?>
+                                            <div class="megamenu-lists">
+                                                <?php  if($prod_cat1) {
+                                                    echo '<ul class="megamenu-list list-col-4">';
+                                                    foreach($prod_cat1 as $b){
+                                                        echo '<li><a href="'. $b['url'] .'">'. $b['name'].'</a></li>';
+                                                    }
+                                                    echo '</ul>';
+                                                } 
+                                                /* Column 2 
+                                                ------------------------- */
+                                                if($prod_cat2) {
+                                                    echo '<ul class="megamenu-list list-col-4">';
+                                                    foreach($prod_cat2 as $b){
+                                                        echo '<li><a href="'. $b['url'] .'">'. $b['name'].'</a></li>';
+                                                    }
+                                                    echo '</ul>';
+                                                } 
+
+                                                /* Column 3 
+                                                ------------------------- */
+                                                if($prod_cat3) {
+                                                    echo '<ul class="megamenu-list list-col-4">';
+                                                    foreach($prod_cat3 as $b){
+                                                        echo '<li><a href="'. $b['url'] .'">'. $b['name'].'</a></li>';
+                                                    }
+                                                    echo '</ul>';
+                                                } 
+
+                                                /* Column 4 
+                                                ------------------------- */
+                                                if($prod_cat4) {
+                                                    echo '<ul class="megamenu-list list-col-4">';
+                                                    foreach($prod_cat4 as $b){
+                                                        echo '<li><a href="'. $b['url'] .'">'. $b['name'].'</a></li>';
+                                                    }
+                                                    echo '</ul>';
+                                                } 
+                                                
+                                                ?>
+                                            </div>
+                                        </div>
+                                    </li>
                                     <li><a href="#">Brands</a>
                                         <div class="megamenu-panel">
                                             <?php 
@@ -157,28 +236,36 @@
                                                 $terms = get_terms( array(
                                                     'taxonomy' => 'brand',
                                                     'hide_empty' => true,
+                                                    'parent'   => 0,
                                                 ) );
                                                 if ( ! empty( $terms ) && ! is_wp_error( $terms ) ){
                                                     foreach ( $terms as $term ) { 
-                                                        $cnt++;
-                                                        $brand_data = [
-                                                            'name' => $term->name,
-                                                            'url' => $brand_url = home_url( '/products-air-conditioner-price-nepal/' ) . '?prod_brand='.  $term->slug,
-                                                        ];
+                                                        $thumb = get_term_meta( $term->term_id, '_product_brand_brand', true );
+                                                        $brand_featured = get_term_meta( $term->term_id, '_product_brand_featured', true );
+                                                
+                                                        if(!empty($brand_featured) && !empty($thumb) && $cnt < 13 ) {
+                                                            $cnt++;
+                                                            $brand_data = [
+                                                                'name' => $term->name,
+                                                                'url' => $brand_url = home_url( '/products-air-conditioner-price-nepal/' ) . '?prod_brand='.  $term->slug,
+                                                                'thumb' => get_term_meta( $term->term_id, '_product_brand_brand', true ),
+                                                            ];
+                                                            
+                                                        // print_r($brand_data);
+                                                            if($cnt == 2){
+                                                                $brand2[] = $brand_data;
+                                                            } elseif ($cnt == 3){                                                    
+                                                                $brand3[] = $brand_data;
+                                                            } elseif ($cnt == 4){     
+                                                                $brand4[] = $brand_data;
+                                                            }else {  
+                                                                $brand1[] = $brand_data;
+                                                            }
 
-                                                        if($cnt == 2){
-                                                            $brand2[] = $brand_data;
-                                                        } elseif ($cnt == 3){                                                    
-                                                            $brand3[] = $brand_data;
-                                                        } elseif ($cnt == 4){     
-                                                            $brand4[] = $brand_data;
-                                                        }else {  
-                                                            $brand1[] = $brand_data;
-                                                        }
 
-
-                                                        if($cnt %4 == 0){
-                                                            $cnt = 0;
+                                                            if($cnt %4 == 0){
+                                                                $cnt = 0;
+                                                            }
                                                         }
                                                     }
                                                 }
@@ -187,7 +274,7 @@
                                                 <?php  if($brand1) {
                                                     echo '<ul class="megamenu-list list-col-4">';
                                                     foreach($brand1 as $b){
-                                                        echo '<li><a href="'. $b['url'] .'">'. $b['name'].'</a></li>';
+                                                        echo '<li><a href="'. $b['url'] .'"> <img src="'. $b['thumb'].'" alt="'. $b['name'] .'"> '. $b['name'].'</a></li>';
                                                     }
                                                     echo '</ul>';
                                                 } 
@@ -196,7 +283,7 @@
                                                 if($brand2) {
                                                     echo '<ul class="megamenu-list list-col-4">';
                                                     foreach($brand2 as $b){
-                                                        echo '<li><a href="'. $b['url'] .'">'. $b['name'].'</a></li>';
+                                                        echo '<li><a href="'. $b['url'] .'">  <img src="'. $b['thumb'].'" alt="'. $b['name'] .'"> '. $b['name'].'</a></li>';
                                                     }
                                                     echo '</ul>';
                                                 } 
@@ -206,7 +293,7 @@
                                                 if($brand3) {
                                                     echo '<ul class="megamenu-list list-col-4">';
                                                     foreach($brand3 as $b){
-                                                        echo '<li><a href="'. $b['url'] .'">'. $b['name'].'</a></li>';
+                                                        echo '<li><a href="'. $b['url'] .'">  <img src="'. $b['thumb'].'" alt="'. $b['name'] .'"> '. $b['name'].'</a></li>';
                                                     }
                                                     echo '</ul>';
                                                 } 
@@ -216,7 +303,7 @@
                                                 if($brand4) {
                                                     echo '<ul class="megamenu-list list-col-4">';
                                                     foreach($brand4 as $b){
-                                                        echo '<li><a href="'. $b['url'] .'">'. $b['name'].'</a></li>';
+                                                        echo '<li><a href="'. $b['url'] .'">  <img src="'. $b['thumb'].'" alt="'. $b['name'] .'"> '. $b['name'].'</a></li>';
                                                     }
                                                     echo '</ul>';
                                                 } 
@@ -226,7 +313,7 @@
                                         </div>
                                     </li>
                                     <li><a href="#">Blog</a></li>
-                                    <li><a href="#">Contact</a></li>
+                                    <li><a href="<?php echo home_url( '/contact-electro-ref-tech-nepal/' ); ?>">Contact</a></li>
                                 </ul>
                             </div>
                         </nav>

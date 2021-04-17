@@ -113,7 +113,7 @@ function() {
 
 // Top Products
 
- jQuery(document).ready(function() {
+ jQuery(document).ready(function($) {
               var owl = $('.bestselllerowl');
               owl.owlCarousel({
                 loop: true,
@@ -220,7 +220,7 @@ $("#sidebarmenuleft").sidebarmenu({
 
 // Best Sellers
 
- jQuery(document).ready(function() {
+ jQuery(document).ready(function($) {
               var owl = $('.bestselllerowlproduct');
               owl.owlCarousel({
                 loop: true,

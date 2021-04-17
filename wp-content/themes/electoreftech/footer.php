@@ -175,7 +175,7 @@
 
 <?php wp_footer(); ?>
 <script type="text/javascript">
-    $(document).ready(function() {
+    jQuery(document).ready(function($) {
         $('#searchiconbec').click(function() {
             $('.showsearchbox').slideToggle("fast");
         });
@@ -187,18 +187,18 @@
     function closeNav() { document.getElementById("mySidenav").style.width = "0"; }
     </script>
     <script type="text/javascript">
-    $(document).scroll(function(e) {
-        var scrollTop = $(document).scrollTop();
+    jQuery(document).scroll(function(e) {
+        var scrollTop = jQuery(document).scrollTop();
         if (scrollTop > 75) {
             //console.log(scrollTop);
-            $('.header_area').addClass('sticky');
+            jQuery('.header_area').addClass('sticky');
         } else {
-            $('.header_area').removeClass('sticky');
+            jQuery('.header_area').removeClass('sticky');
         }
     });
     </script>
     <script type="text/javascript">
-    $(document).ready(function() {
+    jQuery(document).ready(function($) {
         $("#site-spop").focus(function() {
             $('.site-search-form').addClass("search-normal-screen");
         });
