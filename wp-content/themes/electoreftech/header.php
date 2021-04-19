@@ -13,12 +13,43 @@
 <!doctype html>
 <html <?php language_attributes(); ?>>
 <head>
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Organization",
+    "name": "ElectroRefTechnology",
+    "url": "https://www.electroreftech.com/",
+    "address": "Kupandole, Lalitpur, Nepal",
+    "sameAs": [
+      "https://www.facebook.com/electroreftech.com",
+      "https://twitter.com/home",
+      "https://www.linkedin.com/company/t/",
+      "https://www.instagram.com/electroreftech/?hl=en"
+    ],
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Kupandole, Lalitpur, Nepal",
+    "addressRegion": "Bagmati",
+    "postalCode": "00977",
+    "addressCountry": "NP"
+  }
+  }
+</script>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Electro-Ref Tech">
     <meta name="author" content="Electro-Ref Tech">
-
+    <meta name="google-site-verification" content="-lp6YNHU26wrKMoU7QXLDKzYXQj1tFe9erCgaXkyORc" />
 	<?php wp_head(); ?>
+    	<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-31914987-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-31914987-3');
+</script>
 </head>
 
 <body <?php body_class(); ?>>
@@ -50,18 +81,18 @@
                                 <div class="minicartinner">
                                       <ul>
                                         <li>     <div class="carticon">
-                                        <a href="#">
+                                        <a href="<?php echo esc_url( home_url( '/compare/' ) ); ?>">
                                             <span class="carticoninner">
                                                 <i class="fa fa-balance-scale" aria-hidden="true"></i>
-                                                <span class="cartcount bigcounter">2</span>
+                                                <span class="cartcount bigcounter compare_total"><?php echo electoreftech_compare_total(); ?></span>
                                             </span>
                                         </a>
                                     </div></li>
                                         <li>     <div class="carticon">
-                                        <a href="#">
+                                        <a href="<?php echo esc_url( home_url( '/watchlist/' ) ); ?>">
                                             <span class="carticoninner">
                                                 <i class="fa fa-heart-o" aria-hidden="true"></i>
-                                                <span class="cartcount bigcounter">2</span>
+                                                <span class="cartcount bigcounter watch_total"><?php echo electoreftech_watch_total(); ?></span>
                                             </span>
                                         </a>
                                     </div></li>
@@ -71,7 +102,14 @@
                             </div>
                         </div>
                         <div class="col-md-3 col-lg-2 d-none d-sm-block">
-                            <div class="loginin"> <a href="#"><i class="fa fa-sign-in" aria-hidden="true"></i>Login In</a> </div>
+                            <div class="loginin">
+                              <?php if(is_user_logged_in()){
+                                  $current_user = wp_get_current_user();   ?>
+                                <a href="javascript:void(null)"><i class="fa fa-user-o" aria-hidden="true"></i> <?php echo $current_user->user_login; ?>!</a> 
+                                <?php }  else { ?>  
+                                 <a href="<?php echo esc_url( home_url( '/login/' ) ); ?>"><i class="fa fa-sign-in" aria-hidden="true"></i>Login In</a> 
+                                    <?php } ?>
+                            </div>
                         </div>
                     </div>
                 </div>

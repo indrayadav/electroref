@@ -11,12 +11,12 @@
         $("#filter_prod_cat").data("placeholder","Select Category").chosen();
         $("#filter_sort_product").data("placeholder","Sort product").chosen();
 
-        // FB.init({
-        //     appId: 220198652759638,
-        //     status: true,
-        //     cookie: true,
-        //     xfbml: true
-        // });
+        FB.init({
+            appId: 220198652759638,
+            status: true,
+            cookie: true,
+            xfbml: true
+        });
     });
 
     /* Filter page price slider */
@@ -49,6 +49,95 @@
         });
 
     }
+
+    // Add to wishlist
+    $(".wishcompareicon").on("click", "a.watchlist", function() {
+        var veiw_wrap = $(this).closest('.wishcompareicon');
+        var post_id = veiw_wrap.find('.post_id').val();
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: electroref_params.admin_ajax_url,
+            data: {
+                'action': 'electoreftech_save_wishlist',
+                'post_id': post_id,
+            },
+            success: function(data) {                
+                veiw_wrap.find('a.watchlist').html(data.message);
+                $('.watch_total').html(data.my_total_wishlist);
+                return false;
+            }
+        });
+
+        return false;
+    });
+
+    // Add to wishlist single page
+    $(".share-product").on("click", ".wishlistprodiocn a", function() {
+
+        var veiw_wrap = $(this).closest('.share-product');
+        var post_id = veiw_wrap.find('.post_id').val();
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: electroref_params.admin_ajax_url,
+            data: {
+                'action': 'electoreftech_save_wishlist',
+                'post_id': post_id,
+                'page': 'single',
+            },
+            success: function(data) {                
+                veiw_wrap.find('.wishlistprodiocn a').html(data.message + data.txt);
+                $('.watch_total').html(data.my_total_wishlist);
+                return false;
+            }
+        });
+
+        return false;
+    });
+
+    // Add to Compare list (general)
+    $(".wishcompareicon").on("click", "a.comparelist", function() {
+        var veiw_wrap = $(this).closest('.wishcompareicon');
+        var post_id = veiw_wrap.find('.post_id').val();
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: electroref_params.admin_ajax_url,
+            data: {
+                'action': 'electoreftech_save_comparelist',
+                'post_id': post_id,
+            },
+            success: function(data) {                
+                veiw_wrap.find('a.comparelist').html(data.message);
+                $('.compare_total').html(data.my_total_compare);
+                return false;
+            }
+        });
+
+        return false;
+    });
+
+        // Add to Compare list (compare list page )
+        $(".compare_delete").on("click", "a", function() {
+            var veiw_wrap = $(this).closest('.compare_delete');
+            var post_id = veiw_wrap.find('.post_id').val();
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: electroref_params.admin_ajax_url,
+                data: {
+                    'action': 'electoreftech_save_comparelist',
+                    'post_id': post_id,
+                },
+                success: function(data) {                
+                    location.reload();
+                    return false;
+                }
+            });
+    
+            return false;
+        });
 
     // Toggle Nav
     $(".cate_lists").on("click", "span.btn_toggle a", function() {

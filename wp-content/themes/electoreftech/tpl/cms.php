@@ -16,12 +16,6 @@ get_header();
 while ( have_posts() ) :
 	the_post();
 
-	$banner_img = get_template_directory_uri(). '/img/page_banner.jpg';
-	$electroref_page_banner = get_post_meta(get_the_ID(), 'electroref_page_banner', true);
-
-	if(isset($electroref_page_banner) && !empty($electroref_page_banner)){
-		$banner_img = $electroref_page_banner;
-	}
  ?>
 
 <section id="breadcrumb-nf">

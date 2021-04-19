@@ -10,44 +10,56 @@
 get_header();
 ?>
 
-	<main id="primary" class="site-main">
+<section id="breadcrumb-nf">
+	<div class="container">
+	<h1><?php	printf( esc_html__( 'Search Results for: %s', 'electoreftech' ), ' "' . get_search_query() . '"' );
+		?></h1>
+		<?php
+			if ( function_exists( 'electoreftech_breadcrumbs' ) ) {
+				electoreftech_breadcrumbs();
+			}
+			?>
+	</div>
+</section>
 
-		<?php if ( have_posts() ) : ?>
+<!-- Blog Section Start -->
+<section id="all-blog-section">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-8">
+			<?php if ( have_posts() ) : ?>
+				<div class="row">
+					<?php  
+					while ( have_posts() ) :
+									the_post();
 
-			<header class="page-header">
-				<h1 class="page-title">
-					<?php
-					/* translators: %s: search query. */
-					printf( esc_html__( 'Search Results for: %s', 'electoreftech' ), '<span>' . get_search_query() . '</span>' );
+					$post_id = get_the_ID(); 
+						get_template_part(
+							'template-parts/blog/blog',
+							'modern2',
+							array(
+								'post_id' => $post_id,
+							)
+						);
+					endwhile;
 					?>
-				</h1>
-			</header><!-- .page-header -->
-
-			<?php
-			/* Start the Loop */
-			while ( have_posts() ) :
-				the_post();
-
-				/**
-				 * Run the loop for the search to output the results.
-				 * If you want to overload this in a child theme then include a file
-				 * called content-search.php and that will be used instead.
-				 */
-				get_template_part( 'template-parts/content', 'search' );
-
-			endwhile;
-
+				</div>
+			
+			<?php 
 			the_posts_navigation();
 
-		else :
-
-			get_template_part( 'template-parts/content', 'none' );
-
-		endif;
-		?>
-
-	</main><!-- #main -->
-
-<?php
-get_sidebar();
+			else :
+	
+				get_template_part( 'template-parts/content', 'none' );
+	
+			endif;
+			 ?>	
+			</div>
+			<div class="col-lg-4">
+			<?php get_sidebar(); ?>
+			</div>
+		</div>
+	</div>
+</section>
+<?php 
 get_footer();

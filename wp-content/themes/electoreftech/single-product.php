@@ -121,11 +121,11 @@ if(isset($electroref_page_banner) && !empty($electroref_page_banner)){
 						<h4><?php echo electoreftech_product_price(get_the_ID()); ?></h4>
 					</div>
 					<div class="share-product">
+					    <input type="hidden" class="post_id" value="<?php echo get_the_ID(); ?>" >
 						<ul>
 							<li>Share: </li>
-							<li><a href="#" class="facebookshare"><i class="fa fa-facebook" aria-hidden="true"></i>Share</a></li>
-							<li><a href="#" class="tweetshare"><i class="fa fa-twitter" aria-hidden="true"></i>Tweet</a></li>
-							<li><div class="wishlistprodiocn"><a href="#"><i class="fa fa-heart-o" aria-hidden="true"></i>Save</a></div></li>
+							<?php echo electroref_sharethis_nav(get_the_ID()); ?>
+							<li><div class="wishlistprodiocn"><a href="javascript:void(null)"><?php echo electoreftech_wishlist_status(get_the_ID(), 'txt'); ?></a></div></li>
 						</ul>
 					</div>
 					<div class="book-now"><a href="#" data-toggle="modal" data-target="#booknowModal">Book Now</a></div>

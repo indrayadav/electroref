@@ -88,3 +88,12 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
   ul.electroref_toggle_wrap li:nth-child(n+6) {
     display:none;
 }
+span.compare_delete {
+    float: right;
+}
+
+span.compare_delete a{
+    color: #f25302;
+    font-size: 13px;
+    font-weight: 700;
+}

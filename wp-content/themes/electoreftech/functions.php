@@ -158,11 +158,14 @@ function electoreftech_scripts() {
 	wp_enqueue_script( 'electoreftech-custom', get_template_directory_uri() . '/js/custom.js', array(), _S_VERSION, true );
 	wp_enqueue_script( 'megamenu', get_template_directory_uri() . '/js/megamenu.js', array(), _S_VERSION, true );
 
-	wp_enqueue_script( 'nouislider', 'https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/10.0.0/nouislider.js', array(), '20190207', true );
-	wp_enqueue_script( 'chosen.jquery', get_template_directory_uri() . '/js/chosen.jquery.js', array(), '20190207', true );
+	wp_enqueue_script( 'nouislider', 'https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/10.0.0/nouislider.js', array(), _S_VERSION, true );
+	wp_enqueue_script( 'chosen.jquery', get_template_directory_uri() . '/js/chosen.jquery.js', array(), _S_VERSION, true );
 	
-	wp_enqueue_script( 'xzoom', get_template_directory_uri() . '/js/xzoom.js', array(), '20190207', true );
-	wp_enqueue_script( 'electoreftech-param', get_template_directory_uri() . '/js/electroref.js', array(), '20190207', true );
+	wp_enqueue_script( 'xzoom', get_template_directory_uri() . '/js/xzoom.js', array(), _S_VERSION, true );
+	wp_enqueue_script( 'electoreftech-param', get_template_directory_uri() . '/js/electroref.js', array(), _S_VERSION, true );
+	
+	wp_enqueue_script( 'electroref-pinit-js', '//assets.pinterest.com/js/pinit.js', array(), NULL, true );
+	wp_enqueue_script( 'electroref-facebook-js', '//connect.facebook.net/en_US/all.js', array(), NULL, true );
 	
 	$electroref_params = array(
 		'admin_ajax_url' => admin_url( 'admin-ajax.php' ),

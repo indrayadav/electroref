@@ -358,9 +358,9 @@ if ( ! function_exists( 'electro_filter_product' ) ) {
                     <h4><a href="'. get_permalink($post_id) .'">'. get_the_title($post_id) .'</a></h4>';
             $content .=  electoreftech_product_rating($post_id);
             $content .=  electoreftech_product_price($post_id);
+            $content .=  electoreftech_watchcompare($post_id);
                    
-            $content .= '<div class="electrobtn"><a href="'. get_permalink($post_id) .'">View Detail</a></div>
-                </div>
+            $content .= '</div>
             </div>
         </div>';
 
@@ -403,14 +403,13 @@ if( !function_exists( 'electroref_sharethis_nav' ) ){
               $share_img 	= $image[0];
       endif;
   
-      $content .= '<div class="share_this_post">';
-      $content .= '<ul class="nav navbar navbar-left d-flex d-inline-flex">';
-      $content .= '<li class="label read-more"><a href="javascript:void(null);"><i class="fa fa-share-alt"></i> '. __('Share', 'hytteguiden').'</a></li>';
-      $content .= '<li class="facebook-bg read-more"><a href="javascript:void(null);" class="facebook" onClick = "fb_callout(&quot;'.$share_url.'&quot;, &quot;'.$share_img.'&quot;, &quot;'.$share_title.'&quot;, &quot;'.$share_txt.'&quot;);"><span class="share-icons face-book"><i class="fa fa-facebook"></i></span> Share</a></li>';
-      $content .= '<li class="tweeter-bg read-more"><a href="javascript:void(null);" class="twitter" onClick ="share_on_twitter(&quot;'.$share_url.'&quot;, &quot;'.$share_title.'&quot;);"><span class="share-icons twitter"><i class="fa fa-twitter"></i></span> Tweet</a></li>';
+
      
-      $content .= '<li class="pin-bg read-more"><a href="javascript:void(null);" class="pin" onClick = "pin_it_now(&quot;'.$share_url.'&quot;, &quot;'.$share_img.'&quot;, &quot;'.$share_title.'&quot;);"><span class="share-icons google"><i class="fa fa-pinterest"></i></span> Pin it</a></li>';
-      $content .= '</ul></div><div class="clearfix"></div>';
+      $content .= '<li><a href="javascript:void(null);" class="facebookshare" onClick = "fb_callout(&quot;'.$share_url.'&quot;, &quot;'.$share_img.'&quot;, &quot;'.$share_title.'&quot;, &quot;'.$share_txt.'&quot;);"><span class="share-icons face-book"><i class="fa fa-facebook"></i></span> Share</a></li>';
+      $content .= '<li><a href="javascript:void(null);" class="tweetshare" onClick ="share_on_twitter(&quot;'.$share_url.'&quot;, &quot;'.$share_title.'&quot;);"><span class="share-icons twitter"><i class="fa fa-twitter"></i></span> Tweet</a></li>';
+     
+      $content .= '<li><a href="javascript:void(null);" class="pinshare" onClick = "pin_it_now(&quot;'.$share_url.'&quot;, &quot;'.$share_img.'&quot;, &quot;'.$share_title.'&quot;);"><span class="share-icons google"><i class="fa fa-pinterest"></i></span> Pin it</a></li>';
+
   
       return $content;
       
@@ -505,4 +504,342 @@ function electoreftech_set_post_view($post_id) {
     $count++;
     update_post_meta( $post_id, $key, $count );
 }
+
+/* Electtrroref General functions
+===========================================  */
+function electoreftech_record_count( $tbl_name, $cond = '') {
+    global $wpdb;
+  
+    $sql = 'SELECT COUNT(*) FROM ' . $wpdb->prefix . $tbl_name . ' WHERE 1= 1'; 
+    if($cond != '' ){
+        $sql .= $cond;
+    }
+
+    return $wpdb->get_var( $sql );
+}
+
+function electoreftech_delete_cond_data( $tbl_name, $cond = '') {
+    global $wpdb;
+
+    $sql = 'delete from ' . $wpdb->prefix . $tbl_name .  ' WHERE 1= 1'; 
+
+    if($cond != '' ){
+        $sql .= $cond;
+    }
+    $wpdb->query($sql);
+}
+
+function electoreftech_all_data( $tbl_name, $cond = '', $per_page = 5, $page_number = 1, $orderby = 'id', $order = 'desc' ) {
+
+    global $wpdb;
+  
+    $sql = 'SELECT * FROM ' . $wpdb->prefix . $tbl_name . ' WHERE 1= 1';  
+    
+    if($cond != '' ){
+        $sql .= $cond;
+    }
+  
+    $sql .= ' ORDER BY ' .$orderby;
+    $sql .= ' '.$order;  
+    $sql .= " LIMIT $per_page";
+  
+    $sql .= ' OFFSET ' . ( $page_number - 1 ) * $per_page;      
+    $result = $wpdb->get_results( $sql );
+  
+    return $result;
+  }
+
+
+/* Electtrroref Theme activation hook
+................................................. */
+
+if ( ! function_exists( 'electoreftech_create_dynamic_table' ) ) {
+	function electoreftech_create_dynamic_table() {
+    global $wpdb;
+    require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+
+    $sql_wishlist = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."wishlist` ( `id` bigint(20) not null auto_increment,
+     `post_id` int(10) not null,
+     `user_id` varchar(100) not null,
+     `guest_id` varchar(30) not null, 
+     `added_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY  (`id`));";
+
+    dbDelta($sql_wishlist);
+
+    $sql_compare = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."compare` ( `id` bigint(20) not null auto_increment,
+    `post_id` int(10) not null,
+    `user_id` varchar(100) not null,
+    `guest_id` varchar(30) not null, 
+    `added_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY  (`id`));";
+
+   dbDelta($sql_compare);
+
+    }
+}
+add_action('after_switch_theme', 'electoreftech_create_dynamic_table');
+
+
+/* Electoreftech Theme initialization
+................................................. */
+/* Random Key Generate */
+if ( ! function_exists( 'electoreftech_random_keygen' ) ) {
+    function electoreftech_random_keygen($n = 20) { 
+      $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'; 
+      $randomString = ''; 
+  
+      for ($i = 0; $i < $n; $i++) { 
+          $index = rand(0, strlen($characters) - 1); 
+          $randomString .= $characters[$index]; 
+      } 
+  
+      return $randomString; 
+    } 
+  }
+
+function electoreftech_guest_id() {
+    $content = '';
+    if(!isset($_COOKIE['guest_auth_token'])) {
+      $user_auth =  electoreftech_random_keygen();
+      setcookie( 'guest_auth_token', $user_auth, time() + 78436438, '/' );
+      $content = $user_auth;
+    } else{
+      $content = $_COOKIE['guest_auth_token'];
+    }
+  
+    return $content;
+  }
+
+if ( ! function_exists( 'electoreftech_init' ) ) {
+    function electoreftech_init( ) {
+      electoreftech_guest_id();
+    }
+  }
+  
+  add_action( 'init', 'electoreftech_init' );
+
+
+/* Electtrroref Wishlist functions
+===========================================  */
+
+if ( ! function_exists( 'electoreftech_watch_total' ) ) {
+	function electoreftech_watch_total() {
+        $guest_id = electoreftech_guest_id();
+        if(is_user_logged_in()){
+            $current_user = wp_get_current_user();  
+            $insert_data['user_id'] = $current_user->ID;
+            $cond .= ' AND ( user_id ='. $current_user->ID . ' OR guest_id = "'. $guest_id . '")';   
+            $cond_cnt = ' AND ( user_id ='. $current_user->ID . ' OR guest_id = "'. $guest_id . '")';  
+          }else {
+            $cond .= ' AND guest_id = "'. $guest_id . '"'; 
+            $cond_cnt = ' AND guest_id = "'. $guest_id . '"'; 
+        }
+
+        $total_records = electoreftech_record_count('wishlist', $cond); 
+        return $total_records;
+
+    }
+}
+
+if ( ! function_exists( 'electoreftech_watchcompare' ) ) {
+	function electoreftech_watchcompare($post_id) {
+        $content = '';
+        $content .= '<div class="addtocompare"><ul><li><div class="wishcompareicon">';
+        $content .= '<input type="hidden" class="post_id" value="'. $post_id .'" >';
+        $content .= '<span><a href="javascript:void(null)" class="comparelist">'. electoreftech_compare_status($post_id) .'</a></span>';
+        $content .= '<span><a href="javascript:void(null)" class="watchlist">'. electoreftech_wishlist_status($post_id) .'</a></span>';
+        $content .= '</div></li> </ul> </div>';
+
+        return $content;
+    }
+}
+
+if ( ! function_exists( 'electoreftech_save_wishlist' ) ) {
+    function electoreftech_save_wishlist() {
+      global $wpdb;
+      $response_arr 	= array();
+      $theme_path = get_template_directory_uri();
+  
+      $cond = ' AND post_id = '. $_POST['post_id'];   
+      $guest_id = electoreftech_guest_id();
+  
+      $insert_data =  array(
+        'guest_id' => $guest_id,
+        'post_id' => $_POST['post_id'],
+      );
+  
+      if(is_user_logged_in()){
+        $current_user = wp_get_current_user();  
+        $insert_data['user_id'] = $current_user->ID;
+        $cond .= ' AND ( user_id ='. $current_user->ID . ' OR guest_id = "'. $guest_id . '")';   
+        $cond_cnt = ' AND ( user_id ='. $current_user->ID . ' OR guest_id = "'. $guest_id . '")';  
+      }else {
+        $cond .= ' AND guest_id = "'. $guest_id . '"'; 
+        $cond_cnt = ' AND guest_id = "'. $guest_id . '"'; 
+      }
+  
+    
+      $total_records = electoreftech_record_count('wishlist', $cond);     
+  
+      if($total_records > 0){
+        electoreftech_delete_cond_data( 'wishlist', $cond);
+        
+        $response_arr['txt'] = __(' Save to watchlist', 'electoreftech');
+        $response_arr['message'] = __('<i class="fa fa-heart-o" aria-hidden="true"></i>', 'electoreftech');
+      }else{
+  
+        $wpdb->insert($wpdb->prefix.'wishlist', $insert_data );
+        $response_arr['txt'] = __(' Remove from watchlist', 'electoreftech'); 
+        $response_arr['message'] = __('<i class="fa fa-heartbeat" aria-hidden="true"></i>', 'electoreftech');
+      }
+      $total_records = electoreftech_record_count('wishlist', $cond_cnt); 
+      $response_arr['my_total_wishlist'] = $total_records;
+  
+      echo json_encode($response_arr);
+      exit;
+      
+    }
+  }
+  
+  add_action( 'wp_ajax_electoreftech_save_wishlist', 'electoreftech_save_wishlist');
+  add_action( 'wp_ajax_nopriv_electoreftech_save_wishlist', 'electoreftech_save_wishlist');
+
+  /*  Get wishlist status */
+  if ( ! function_exists( 'electoreftech_wishlist_status' ) ) {
+    function electoreftech_wishlist_status($post_id, $page = '') {
+      global $wpdb;
+      $content = '';
+      $theme_path = get_template_directory_uri();
+  
+      $cond = ' AND post_id = '. $post_id;   
+      $guest_id = electoreftech_guest_id();
+  
+      if(is_user_logged_in()){
+        $current_user = wp_get_current_user();  
+        $cond .= ' AND ( user_id ='. $current_user->ID . ' OR guest_id = "'. $guest_id . '")';   
+      }else {
+        $cond .= ' AND guest_id = "'. $guest_id . '"'; 
+      }
+  
+      $total_records = electoreftech_record_count('wishlist', $cond);  
+      if($total_records > 0){  
+        $txt =   __(' Remove from watchlist', 'electoreftech');      
+        $content = __('<i class="fa fa-heartbeat" aria-hidden="true"></i>', 'electoreftech');
+      } else {
+        $txt =   __(' Save to watchlist', 'electoreftech'); 
+        $content = __('<i class="fa fa-heart-o" aria-hidden="true"></i>', 'electoreftech');
+      }  
+
+      if(!empty($page)){
+        $content .= $txt;
+      }
+  
+      return $content;
+    }
+  }
+
+  /* Electtrroref Compare List functions
+===========================================  */
+
+if ( ! function_exists( 'electoreftech_compare_total' ) ) {
+	function electoreftech_compare_total() {
+        $guest_id = electoreftech_guest_id();
+        if(is_user_logged_in()){
+            $current_user = wp_get_current_user();  
+            $insert_data['user_id'] = $current_user->ID;
+            $cond .= ' AND ( user_id ='. $current_user->ID . ' OR guest_id = "'. $guest_id . '")';   
+            $cond_cnt = ' AND ( user_id ='. $current_user->ID . ' OR guest_id = "'. $guest_id . '")';  
+          }else {
+            $cond .= ' AND guest_id = "'. $guest_id . '"'; 
+            $cond_cnt = ' AND guest_id = "'. $guest_id . '"'; 
+        }
+
+        $total_records = electoreftech_record_count('compare', $cond); 
+        return $total_records;
+
+    }
+}
+
+  /*  Get wishlist status */
+  if ( ! function_exists( 'electoreftech_compare_status' ) ) {
+    function electoreftech_compare_status($post_id, $page = '') {
+      global $wpdb;
+      $content = '';
+  
+      $cond = ' AND post_id = '. $post_id;   
+      $guest_id = electoreftech_guest_id();
+  
+      if(is_user_logged_in()){
+        $current_user = wp_get_current_user();  
+        $cond .= ' AND ( user_id ='. $current_user->ID . ' OR guest_id = "'. $guest_id . '")';   
+      }else {
+        $cond .= ' AND guest_id = "'. $guest_id . '"'; 
+      }
+  
+      $total_records = electoreftech_record_count('compare', $cond);  
+      if($total_records > 0){  
+        $txt =   __(' Remove from compare list', 'electoreftech');      
+        $content = __('<i class="fa fa-hourglass-start" aria-hidden="true"></i>', 'electoreftech');
+      } else {
+        $txt =   __(' Save to compare list', 'electoreftech'); 
+        $content = __('<i class="fa fa-balance-scale" aria-hidden="true"></i>', 'electoreftech');
+      }  
+
+      if(!empty($page)){
+        $content .= $txt;
+      }
+  
+      return $content;
+    }
+  }
+
+  if ( ! function_exists( 'electoreftech_save_comparelist' ) ) {
+    function electoreftech_save_comparelist() {
+      global $wpdb;
+      $response_arr 	= array();
+      $theme_path = get_template_directory_uri();
+  
+      $cond = ' AND post_id = '. $_POST['post_id'];   
+      $guest_id = electoreftech_guest_id();
+  
+      $insert_data =  array(
+        'guest_id' => $guest_id,
+        'post_id' => $_POST['post_id'],
+      );
+  
+      if(is_user_logged_in()){
+        $current_user = wp_get_current_user();  
+        $insert_data['user_id'] = $current_user->ID;
+        $cond .= ' AND ( user_id ='. $current_user->ID . ' OR guest_id = "'. $guest_id . '")';   
+        $cond_cnt = ' AND ( user_id ='. $current_user->ID . ' OR guest_id = "'. $guest_id . '")';  
+      }else {
+        $cond .= ' AND guest_id = "'. $guest_id . '"'; 
+        $cond_cnt = ' AND guest_id = "'. $guest_id . '"'; 
+      }
+  
+    
+      $total_records = electoreftech_record_count('compare', $cond);     
+  
+      if($total_records > 0){
+        electoreftech_delete_cond_data( 'compare', $cond);
+        
+        $response_arr['txt'] = __(' Save to compare', 'electoreftech');
+        $response_arr['message'] = __('<i class="fa fa-balance-scale" aria-hidden="true"></i>', 'electoreftech');
+      }else{
+  
+        $wpdb->insert($wpdb->prefix.'compare', $insert_data );
+        $response_arr['txt'] = __(' Remove from compare', 'electoreftech'); 
+        $response_arr['message'] = __('<i class="fa fa-hourglass-start" aria-hidden="true"></i>', 'electoreftech');
+      }
+      $total_records = electoreftech_record_count('compare', $cond_cnt); 
+      $response_arr['my_total_compare'] = $total_records;
+  
+      echo json_encode($response_arr);
+      exit;
+      
+    }
+  }
+  
+  add_action( 'wp_ajax_electoreftech_save_comparelist', 'electoreftech_save_comparelist');
+  add_action( 'wp_ajax_nopriv_electoreftech_save_comparelist', 'electoreftech_save_comparelist');
+
 ?>

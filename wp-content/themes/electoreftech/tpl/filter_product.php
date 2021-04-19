@@ -271,7 +271,6 @@ if($load_more_record <= 0){
 							echo '<div class="row">';
 							while ( $wp_query->have_posts() ) : $wp_query->the_post();
 							$post_id = get_the_ID();
-							$price = get_post_meta($post_id, 'product_price', true);
 							$cnt++;
 							get_template_part(
 								'template-parts/product/product',
