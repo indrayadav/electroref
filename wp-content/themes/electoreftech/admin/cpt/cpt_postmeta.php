@@ -12,6 +12,13 @@ function product_post_meta() {
       ) );
 
       $cmb_product->add_field( array(
+        'name' => esc_html__( 'Specifications', 'cmb2' ),
+        'desc' => esc_html__( 'Add product specifications.', 'cmb2' ),
+        'id'   => $prefix . 'specifications',
+        'type' => 'wysiwyg',
+      ) );
+
+      $cmb_product->add_field( array(
         'name' => esc_html__( 'Additional Info', 'cmb2' ),
         'desc' => esc_html__( 'Add product additional info.', 'cmb2' ),
         'id'   => $prefix . 'add_info',

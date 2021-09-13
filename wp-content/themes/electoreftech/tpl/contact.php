@@ -92,84 +92,24 @@ while ( have_posts() ) :
 	<!-- map-area -->
 	<div class="map-area pb-120">
 		<div class="container">
-			<div id="map_wrapper">
-				<div id="map_canvas" class="mapping"></div>
+		<div class="row">
+			<div class="col-md-6">
+				<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2970.8234057176846!2d85.31561075148892!3d27.6887334951867!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb19b4ed4a662b%3A0xfc8632adca3bba31!2zRWxlY3Ryby1SZWYgVGVjaCBQdnQuIEx0ZC4gKOCkh-CksuClh-CkleCljeCkn-CljeCksOCliy3gpLDgpYfgpKsg4KSf4KWH4KSVKSBbQUMgSG91c2Vd!5e0!3m2!1sen!2snp!4v1619084185584!5m2!1sen!2snp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+				<h5> Store location</h5>
+				<p>Opposite to Hanumansthan Temple, Kupondole, Lalitpur,Nepal</p>
+			</div>
+			<div class="col-md-6">
+
+			<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2498.222082104564!2d85.31570924321085!3d27.685790626179593!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x3b649a58a40c42b0!2sElectro%20Ref%20Tech%20Pvt.%20Ltd.!5e0!3m2!1sen!2snp!4v1619084531118!5m2!1sen!2snp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+				<h5> Service Center location</h5>
+				<p>Near Sarwanga Hospital Kupondole, Lalitpur,Nepal</p>
 			</div>
 		</div>
 	</div>
 	<!-- map-end -->
 </section>
 
-<script>
-	jQuery(function($) {
-    // Asynchronously Load the map API 
-    var script = document.createElement('script');
-    script.src = "//maps.googleapis.com/maps/api/js?sensor=false&callback=initialize&key=AIzaSyCwHYuL2hs0CzlpOWXlime6VyGlomHmeDw";
-    document.body.appendChild(script);
-});
 
-function initialize() {
-    var map;
-    var bounds = new google.maps.LatLngBounds();
-    var mapOptions = {
-        mapTypeId: 'roadmap'
-    };
-                    
-    // Display a map on the page
-    map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
-    map.setTilt(45);
-        
-    // Multiple Markers
-    var markers = [
-        ['Electro-Ref Tech Showroom', 27.688321,85.316220, 'pin.png'],
-        ['Electro-Ref Tech Service Center', 27.686269,85.315495, 'pin.png']
-    ];
-                        
-    // Info Window Content
-    var infoWindowContent = [
-      
-        ['<div class="info_content">' +
-        '<div class="bg-white"> <a href="javascript:void(0)" class="close-map-popup"></a><figure class="pop-map-img mb-0" style="background:url(https://electroreftech.com/wp-content/uploads/2020/03/new-shop-150x150.jpg) center center ;height:100%; background-size: cover; "><img class="img-reponsive" style="opacity: 0;" src="https://electroreftech.com/wp-content/uploads/2020/03/new-shop-150x150.jpg"></figure><div class="pop-map-content"> <h3><a href="https://g.page/electroref-tech?share" target="_blank">Electro-Ref Tech <br />Show Room</a></h3><p>Opposite to Hanuman Than <br />  Temple, Kupondole, <br />  Lalitpur, Nepal</p><ul class="d-flex item-items"><li><i class="icon icon-room"></i><span>Tel. : 01-5260961, 981-8776832</span></li></ul>                    </div>                    <a href="javascript:void(0)" class="map-thumbnail" link=""></a></div>' +
-        '</div>'],
-		[ '<div class="info_content">' +
-        '<div class="bg-white"> <a href="javascript:void(0)" class="close-map-popup"></a><figure class="pop-map-img mb-0" style="background:url(https://electroreftech.com/wp-content/uploads/2020/05/electro-ref-tech-service-center-150x150.jpg) center center ;height:100%; background-size: cover; "><img class="img-reponsive" style="opacity: 0;" src="https://electroreftech.com/wp-content/uploads/2020/05/electro-ref-tech-service-center-150x150.jpg"></figure><div class="pop-map-content"> <h3><a href="https://goo.gl/maps/iYPxgfH41EnXPciW6" target="_blank">Electro-Ref Tech <br />Service Center</a></h3><p>Near Sarvanga Hospital <br /> Kupondole, Lalitpur, Nepal</p><ul class="d-flex item-items"><li><i class="icon icon-room"></i><span>Tel. : 01-5260961, 981-8776832</span></li></ul>                    </div>                    <a href="javascript:void(0)" class="map-thumbnail" link=""></a></div>' +
-        '</div>']
-    ];
-        
-    // Display multiple markers on a map
-    var infoWindow = new google.maps.InfoWindow(), marker, i;
-    
-    // Loop through our array of markers & place each one on the map  
-    for( i = 0; i < markers.length; i++ ) {
-        var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
-        bounds.extend(position);
-        marker = new google.maps.Marker({
-            position: position,
-            map: map,
-			icon: 'https://electroreftech.com/wp-content/themes/electoreftech/img/'+ markers[i][3],
-            title: markers[i][0]
-        });
-        
-        // Allow each marker to have an info window    
-        google.maps.event.addListener(marker, 'click', (function(marker, i) {
-            return function() {
-                infoWindow.setContent(infoWindowContent[i][0]);
-                infoWindow.open(map, marker);
-            }
-        })(marker, i));
-
-        // Automatically center the map fitting all markers on the screen
-        map.fitBounds(bounds);
-    }
-
-    // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
-    var boundsListener = google.maps.event.addListener((map), 'bounds_changed', function(event) {
-        this.setZoom(16);
-        google.maps.event.removeListener(boundsListener);
-    });
-    
-}
-				</script>
 <?php 
 endwhile; // End of the loop.
 get_footer();

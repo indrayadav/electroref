@@ -152,7 +152,7 @@ function electoreftech_scripts() {
 	wp_enqueue_style( 'electoreftech-style', get_stylesheet_uri(), array(), _S_VERSION );
 	wp_style_add_data( 'electoreftech-style', 'rtl', 'replace' );
 
-	//wp_enqueue_script( 'jquery-3.5.1.min', get_template_directory_uri() . '/js/jquery-3.5.1.min.js', array(), _S_VERSION, true );
+	wp_enqueue_script( 'jquery-3.5.1.min', get_template_directory_uri() . '/js/jquery-3.5.1.min.js', array(), _S_VERSION, true );
 	wp_enqueue_script( 'bootstrap.min', get_template_directory_uri() . '/js/bootstrap.min.js', array(), _S_VERSION, true );
 	wp_enqueue_script( 'owl.carousel', get_template_directory_uri() . '/js/owl.carousel.js', array(), _S_VERSION, true );
 	wp_enqueue_script( 'electoreftech-custom', get_template_directory_uri() . '/js/custom.js', array(), _S_VERSION, true );
@@ -160,6 +160,7 @@ function electoreftech_scripts() {
 
 	wp_enqueue_script( 'nouislider', 'https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/10.0.0/nouislider.js', array(), _S_VERSION, true );
 	wp_enqueue_script( 'chosen.jquery', get_template_directory_uri() . '/js/chosen.jquery.js', array(), _S_VERSION, true );
+	wp_enqueue_script( 'jquery.validate', get_template_directory_uri() . '/js/jquery.validate.js', array(), '20190207', true );
 	
 	wp_enqueue_script( 'xzoom', get_template_directory_uri() . '/js/xzoom.js', array(), _S_VERSION, true );
 	wp_enqueue_script( 'electoreftech-param', get_template_directory_uri() . '/js/electroref.js', array(), _S_VERSION, true );

@@ -49,8 +49,16 @@
                     <div class="row">
                         <div class="col-12 col-md-6 col-lg-3">
                             <div class="fbox fblistbox">
-                                <h4>About Us<span></span></h4>
-                                <p>Electro-Ref Tech Pvt. Ltd. is an Air Conditioner & Home Appliances Sales, Service & Maintenance Center in Nepal. You can find multiple brands of air conditioner in our AC Showroom which is located in Kupondol, Lalitpur, Nepal </p>
+                                <h4>Customer care<span></span></h4>
+                                <div class="cate_lists">
+                                <ul>
+                                    <li><a href="https://www.electroreftech.com/about-electro-ref-tech-ac-nepal/">About Us</a></li>
+                                    <li><a href="https://www.electroreftech.com/delivery-locations/">Delivery Locations</a></li>
+                                    <li><a href="https://www.electroreftech.com/terms-and-conditions/">Terms And Conditions</a></li>
+                                    <li><a href="https://www.electroreftech.com/products-installations/">Products Installations</a></li>
+                                    <li><a href="https://www.electroreftech.com/contact-electro-ref-tech-nepal/">Contact</a></li>
+                                </ul>
+                            </div>
                             </div>
                         </div>
                         <div class="col-12 col-md-6 col-lg-3">
@@ -67,7 +75,7 @@
                                     </li>
                                     <li>
                                         <i class="fa fa-volume-control-phone" aria-hidden="true"></i>
-                                        <p>01-5260961, 981-8776832</p>
+                                        <p>01-5260961, 9865479949, 9805950020, 981-8776832</p>
                                     </li>
                                     <li>
                                         <i class="fa fa-clock-o"></i>
@@ -207,6 +215,9 @@
         });
     });
     </script>
+
+
+
 
 </body>
 </html>

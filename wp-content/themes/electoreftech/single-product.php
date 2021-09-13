@@ -38,13 +38,24 @@ if(isset($electroref_page_banner) && !empty($electroref_page_banner)){
 </section>
 
 <!-- Detail Page Section Start -->
-<section id="detail-page">
+<section id="detail-page" itemscope="" itemtype="http://schema.org/Product">
+
+   <meta itemprop="name" content="<?php echo get_the_title($current_post_id); ?>" />
+    <link itemprop="url" href="<?php echo get_permalink($current_post_id);?>" />
+    <meta itemprop="description" content="<?php echo get_the_excerpt($current_post_id); ?>" />
+    <span class="d-none" itemprop="brand" itemtype="http://schema.org/Brand" itemscope>
+        <meta itemprop="name" content="<?php echo electoreftech_get_product_brand($current_post_id); ?>" />
+    </span>
+    <?php $product_sku = get_post_meta($current_post_id, 'product_sku', true); ?>
+	<meta itemprop="sku" content="<?php echo $product_sku; ?>" />
+	
 	<div class="container">
 		<div class="row">
 			<div class="col-md-5">
 				<div class="left-product-detailss">
 					<div class="xzoom-container">
-					<?php $featured_img_url = get_the_post_thumbnail_url(get_the_ID(),'full');  ?>
+					<?php $featured_img_url = get_the_post_thumbnail_url(get_the_ID(),'full'); 
+					echo '<link itemprop="image" href="'. $featured_img_url.'" />'; ?>
 					  <img class="xzoom2" src="<?php echo $featured_img_url; ?>" xoriginal="<?php echo $featured_img_url; ?>" />
 						
 					  <div class="xzoom-thumbs">
@@ -65,6 +76,7 @@ if(isset($electroref_page_banner) && !empty($electroref_page_banner)){
 				<div class="detailrightcontent">
 				<div id="xzoom2-id" style="float: right; width: 200px; height: 200px;"></div>
 					<h2><?php the_title(); ?></h2>
+					<?php echo electoreftech_product_rating($current_post_id); ?>
 					<p><?php echo get_the_excerpt(); ?></p>
 					<div class="productinfo">
 						<ul>
@@ -121,14 +133,14 @@ if(isset($electroref_page_banner) && !empty($electroref_page_banner)){
 						<h4><?php echo electoreftech_product_price(get_the_ID()); ?></h4>
 					</div>
 					<div class="share-product">
-					    <input type="hidden" class="post_id" value="<?php echo get_the_ID(); ?>" >
+					    <input type="hidden" class="post_id" id="post_id" value="<?php echo get_the_ID(); ?>" >
 						<ul>
 							<li>Share: </li>
 							<?php echo electroref_sharethis_nav(get_the_ID()); ?>
 							<li><div class="wishlistprodiocn"><a href="javascript:void(null)"><?php echo electoreftech_wishlist_status(get_the_ID(), 'txt'); ?></a></div></li>
 						</ul>
 					</div>
-					<div class="book-now"><a href="#" data-toggle="modal" data-target="#booknowModal">Book Now</a></div>
+					<div class="book-now"><a href="#" data-toggle="modal" data-target="#booknowModal">Request A Quote</a></div>
 				</div>
 			</div>
 		</div>
@@ -136,43 +148,59 @@ if(isset($electroref_page_banner) && !empty($electroref_page_banner)){
 </section>
 
 <!-- Book Now -->
-<div id="booknowmodalbox">
-	<div class="modal fade" id="booknowModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Book Now</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
-				</div>
-				<div class="modal-body">
-					<div class="booknow-form">
-						<form action="/">
-							<div class="form-group">
-								<label>Full Name<span>*</span></label>
-								<input type="text" name="fname" class="form-control" placeholder="" required>
-							</div>
-							<div class="form-group">
-								<label>Your Email<span>*</span></label>
-								<input type="text" name="ename" class="form-control" placeholder="" required>
-							</div>
-							<div class="form-group">
-								<label>Your Phone<span>*</span></label>
-								<input type="text" name="pname" class="form-control" placeholder="" required>
-							</div>
-							<div class="form-group">
-								<label>Message<span>*</span></label>
-								<textarea class="form-control" placeholder="Message" rows="3"></textarea>
-							</div>
-							<div class="send-message">
-								<input type="submit" name="submit" value="Send">
-							</div>
-						</form>
+<div class="modal fade" id="booknowModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle"> Request Product Quote Form</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+	  <form action="" id="frm_request_quote">
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="form-group">
+						<input type="text" class="form-control" name="cust_name" id="cust_name" placeholder="Your Name">
 					</div>
 				</div>
+				<div class="col-lg-6">
+					<div class="form-group">
+						<input type="text" class="form-control" name="cust_email" id="cust_email" placeholder="Your Email">
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="form-group">
+						<input type="text" class="form-control" name="cust_phone" id="cust_phone" placeholder="Your Phone">
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="form-group">
+						<select class="form-control" id="product_id">
+							<option value="<?php echo $current_post_id; ?>"><?php echo get_the_title($current_post_id);?></option>
+						</select>
+					</div>
+				</div>
+				<div class="col-lg-12">
+					<div class="form-group">
+						<textarea class="form-control" placeholder="Message" rows="3" name="cust_msg" id="cust_msg"></textarea>
+					</div>
+				</div>
+
+				<div class="col-lg-12" id="request_sent_msg"> </div>
+
 			</div>
-		</div>
-	</div>
+		</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary btn_request_quote">Request Quote</button>
+      </div>
+    </div>
+  </div>
 </div>
+
 <!-- /Detail Page Section End -->
 <!-- Related Product -->
 <section id="detailview-product">
@@ -180,8 +208,9 @@ if(isset($electroref_page_banner) && !empty($electroref_page_banner)){
 		<div class="relatedtabpanel">
 			<ul class="nav nav-tabs" id="myTab" role="tablist">
 				<li class="nav-item"> <a class="nav-link active" id="overview-tab" data-toggle="tab" href="#overview" role="tab" aria-controls="overview" aria-selected="true">Overview</a> </li>
+				<li class="nav-item"> <a class="nav-link" id="specifications-tab" data-toggle="tab" href="#specifications" role="tab" aria-controls="specifications" aria-selected="false">Specifications</a> </li>
 				<li class="nav-item"> <a class="nav-link" id="additionalinfo-tab" data-toggle="tab" href="#additionalinfo" role="tab" aria-controls="additionalinfo" aria-selected="false">Additional Info</a> </li>
-				<li class="nav-item"> <a class="nav-link" id="review-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review" aria-selected="false">Product Reviews</a> </li>
+				<li class="nav-item"> <a class="nav-link" id="review-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review" aria-selected="false">Reviews</a> </li>
 			</ul>
 		</div>
 		<div class="tab-content" id="myTabContent">
@@ -190,15 +219,33 @@ if(isset($electroref_page_banner) && !empty($electroref_page_banner)){
 					<?php the_content(); ?>
 				</div>
 			</div>
+
+			<div class="tab-pane fade" id="specifications" role="tabpanel" aria-labelledby="specifications-tab">
+				<div class="overviewrelated">
+				<?php echo wpautop( get_post_meta( get_the_ID(), 'product_specifications', true ) ); ?>
+				</div>
+			</div>
+
 			<div class="tab-pane fade" id="additionalinfo" role="tabpanel" aria-labelledby="additionalinfo-tab">
 				<div class="overviewrelated">
 				<?php echo wpautop( get_post_meta( get_the_ID(), 'product_add_info', true ) ); ?>
 				</div>
 			</div>
 			<div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
+			<?php 
+				$reviews_cond = ' AND post_id = '. $current_post_id . ' AND status = "Published"'; 
+				$reviews = electoreftech_all_data('reviews', $reviews_cond);
+			
+			?>
 				<div class="producttab-inside">
-					<h4>2 Review For Apple Watch Series 5</h4>
-					<div class="writereviewadd"><a href="#" data-toggle="modal" data-target="#writeaReview">Write a review</a></div>
+					<h4><?php echo count($reviews);?> Review For <?php echo get_the_title($current_post_id); ?></h4>
+					<div class="writereviewadd">
+					<?php  if(!is_user_logged_in()){ ?>
+					<a href="#" data-toggle="modal" data-target="#writeaReview">Write a review</a>
+					<?php } else { ?>
+						<a href="javascript:void(null)" class="btn_write_review">Write a review</a>
+					<?php } ?>
+					</div>
 					<!-- Write a review -->
 					<div class="writereviewmodal">
 				<div class="modal fade" id="writeaReview" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -260,88 +307,50 @@ if(isset($electroref_page_banner) && !empty($electroref_page_banner)){
 				</div>
                  </div>
 					<div class="productreviewlist">
+					<?php 
+
+					if($reviews){
+					?>
 						<ul>
+						<?php foreach($reviews as $review){
+							$user_info = get_userdata($review->user_id);
+							?>
 							<li>
 								<div class="media">
-									<img class="align-self-start mr-3" src="img/team1-1.jpg" alt="review author immages">
+									<img class="align-self-start mr-3" src="<?php print get_avatar_url($user->ID, ['size' => '40']); ?>" alt="<?php echo $user_info->user_login; ?>">
 									<div class="media-body">
-										<div class="ratingwrap">
-											<span><a href="#"><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></span>
-											<span><a href="#"><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></span>
-											<span><a href="#"><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></span>
-											<span><a href="#"><a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a></span>
-											<span><a href="#"><a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a></span>
-										</div>
-										<h5 class="mt-0">Ramesh Mahato</h5>
-										<p class="comment-date"><i class="fa fa-calendar" aria-hidden="true"></i>July 7, 2020</p>
-										<p>Donec sed odio dui. Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+										<?php echo electoreftech_rating_star($review->rating); ?>
+										<h5 class="mt-0"><?php echo $user_info->user_login; ?></h5>
+										<p class="comment-date"><i class="fa fa-calendar" aria-hidden="true"></i><?php echo date("Y-m-d", strtotime($review->added_date)); ?></p>
+										<p><?php echo $review->review; ?></p>
 									</div>
 								</div>
 							</li>
-							<li>
-								<div class="media">
-									<img class="align-self-start mr-3" src="img/team3-1.jpg" alt="review author immages">
-									<div class="media-body">
-										<div class="ratingwrap">
-											<span><a href="#"><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></span>
-											<span><a href="#"><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></span>
-											<span><a href="#"><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></span>
-											<span><a href="#"><a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a></span>
-											<span><a href="#"><a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a></span>
-										</div>
-										<h5 class="mt-0">Ramesh Mahato</h5>
-										<p class="comment-date"><i class="fa fa-calendar" aria-hidden="true"></i>July 7, 2020</p>
-										<p>Donec sed odio dui. Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
-									</div>
-								</div>
-							</li>
-							<li>
-								<div class="media">
-									<img class="align-self-start mr-3" src="img/team2-1.jpg" alt="review author immages">
-									<div class="media-body">
-										<div class="ratingwrap">
-											<span><a href="#"><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></span>
-											<span><a href="#"><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></span>
-											<span><a href="#"><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></span>
-											<span><a href="#"><a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a></span>
-											<span><a href="#"><a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a></span>
-										</div>
-										<h5 class="mt-0">Ramesh Mahato</h5>
-										<p class="comment-date"><i class="fa fa-calendar" aria-hidden="true"></i>July 7, 2020</p>
-										<p>Donec sed odio dui. Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
-									</div>
-								</div>
-							</li>
+						<?php } ?>
 						</ul>
+					<?php } ?>
 					</div>
 					<!-- Add a review -->
+					<?php  if(is_user_logged_in()){ ?>
 					<div class="addreview-product">
 						<h2>Add Review</h2>
-						<div class="dpagerating">
+						<div class="dpagerating choose_rating">
 							<ul>
-								<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
-								<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
-								<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
-								<li><a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a></li>
-								<li><a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a></li>
+								<li><a href="javascript:void(null)" title="1"><i class="fa fa-star" aria-hidden="true"></i></a></li>
+								<li><a href="javascript:void(null)" title="2"><i class="fa fa-star" aria-hidden="true"></i></a></li>
+								<li><a href="javascript:void(null)" title="3"><i class="fa fa-star" aria-hidden="true"></i></a></li>
+								<li><a href="javascript:void(null)" title="4"><i class="fa fa-star" aria-hidden="true"></i></a></li>
+								<li><a href="javascript:void(null)" title="5"><i class="fa fa-star" aria-hidden="true"></i></a></li>
 							</ul>
+							<input type="hidden" id="post_rating" value="5">
+
 						</div>
 						<div class="reviewformfc">
-							<form>
+						<form action="" id="frm_review">
 								<div class="row">
-									<div class="col-md-6">
-										<div class="form-group">
-											<input type="text" name="fname" class="form-control" placeholder="Enter your full name...">
-										</div>
-									</div>
-									<div class="col-md-6">
-										<div class="form-group">
-											<input type="text" name="fname" class="form-control" placeholder="Enter your email address...">
-										</div>
-									</div>
 									<div class="col-md-12">
 										<div class="form-group">
-											<textarea class="form-control" name="addreview" placeholder="Write Your Review" rows="6"></textarea>
+											<textarea class="form-control" name="review" id="review" placeholder="Write Your Review" rows="6"></textarea>
 										</div>
 									</div>
 									<div class="col-md-12">
@@ -349,10 +358,13 @@ if(isset($electroref_page_banner) && !empty($electroref_page_banner)){
 											<input type="submit" name="submit" value="Post Review">
 										</div>
 									</div>
+
+									<div id="review_sent_msg"></div>
 								</div>
-							</form>
+						</form>
 						</div>
 					</div>
+					<?php } ?>
 				</div>
 			</div>
 		</div>

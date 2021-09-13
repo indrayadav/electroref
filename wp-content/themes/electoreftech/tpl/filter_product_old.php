@@ -37,7 +37,6 @@ while ( have_posts() ) :
 <?php 
 $posts_per_page = 8;
 $$tax_query_meta = [];
-$prod_cat_slugs = [];
 $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
 $args = array(
 	'post_type' => 'product',
@@ -139,15 +138,15 @@ if($load_more_record <= 0){
 							</div>
 						</div>
 					</div>
+
 					<div id="accordion">
 						<div class="card">
 							<div class="card-header" id="headingOne">
-								<h4 class="mb-0 panel-title" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"> Product Categories </h4>
+								<h4 class="mb-0 panel-title" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"> Main Categories </h4>
 							</div>
 							<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
 								<div class="card-body">
 								<div class="accordion-container filter_option_cat">
-									<input type="hidden" id="filter_prod_cat" value ="<?php if(!empty($_REQUEST['prod_cat']) ){ echo $_REQUEST['prod_cat'];  } ?>" >
 								<?php 
 								$result = $wpdb->get_results("select * from " . $wpdb->prefix . "main_categories WHERE 1= 1 order by item_order ASC ");
 								if ($result) {
@@ -155,36 +154,25 @@ if($load_more_record <= 0){
 									foreach ($result as $entry) {
 										
 										if(isset($entry->term_ids) && !empty($entry->term_ids)){
-											$term_ids =  maybe_unserialize($entry->term_ids);
+											$terms =  maybe_unserialize($entry->term_ids);
 											$cnt++;
-
-											$terms = get_terms( array(
-												'taxonomy' => 'product_cat',
-												'hide_empty' => false,
-												'include' => $term_ids,
-											) );
-
-											foreach ( $terms as $term ) { 
-												$term_slugs[] = $term->slug;
-											}
-										
 										?>
 										<div class="set">
-										<a href="javascript:void()" <?php if(in_array($prod_cat_slugs[0], $term_slugs)){ echo ' class="ch_open"'; } ?> >
+										<a href="javascript:void()" <?php if($cnt == 1){ echo ' class="active"'; } ?> >
 										<?php echo $entry->title; ?> 
 											<i class="fa fa-plus"></i>
 											</a>
-											<div class="content">
+											<div class="content"  <?php if($cnt == 1){ echo ' style="display:block;"'; } ?> >
 											<ul class="list-group">
 											<?php 
-											foreach ( $terms as $term ) { 
+											foreach ( $terms as $t_id ) { 
+												$term = get_term( $t_id );
 												?>
 												<li class="list-group-item">
-													<input type="checkbox" name="prod_cat" <?php if(in_array($term->slug, $prod_cat_slugs)){ echo 'checked'; }?> id="<?php echo $term->slug; ?>" value="<?php echo $term->slug; ?>">
+													<input type="checkbox" name="sub_cat[]" checked="" value="<?php echo $term->slug; ?>">
 													<label for="<?php echo $term->slug; ?>"><?php echo $term->name; ?></label><li>
 												<?php 
-											} unset($term_slugs);
-											$term_slugs = [];
+											}
 											?></ul>	
 											</div>
 										</div>
@@ -194,6 +182,138 @@ if($load_more_record <= 0){
 								} ?>
 								
 								</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div id="accordion">
+						<div class="card">
+							<div class="card-header" id="headingOne">
+								<h4 class="mb-0 panel-title" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"> Main Categories </h4>
+							</div>
+							<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+								<div class="card-body">
+									<div class="select-category filter_option_cat">
+									<?php 
+									$result = $wpdb->get_results("select * from " . $wpdb->prefix . "main_categories WHERE 1= 1 order by item_order ASC ");
+									if ($result) {
+										echo '<ul class="list-group">';
+										foreach ($result as $entry) {
+
+											if(isset($entry->term_ids) && !empty($entry->term_ids)){
+												$terms =  maybe_unserialize($entry->term_ids);
+											?>
+											<li class="list-group-item">
+													<input type="checkbox" name="sub_cat[]" checked="" value="<?php echo $entry->id; ?>">
+													<label for="<?php echo $entry->title; ?>"><strong><?php echo $entry->title; ?></strong></label>
+											<ul class="list-group">
+											<?php 
+											foreach ( $terms as $t_id ) { 
+												$term = get_term( $t_id );
+												?>
+												<li class="list-group-item">
+													<input type="checkbox" name="sub_cat[]" checked="" value="<?php echo $term->slug; ?>">
+													<label for="<?php echo $term->slug; ?>"><?php echo $term->name; ?></label><li>
+												<?php 
+											}
+											?></ul>	
+												
+											</li>											
+											<?php 
+											}
+										}
+										echo '</ul>';
+									}
+									?>
+									
+									</div>
+								
+								</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div id="accordion">
+						<div class="card">
+							<div class="card-header" id="headingOne">
+								<h4 class="mb-0 panel-title" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"> Product Categories </h4>
+							</div>
+							<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+								<div class="card-body">
+								<ul>
+    <?php $hiterms = get_terms("product_cat", array("orderby" => "slug", "parent" => 0)); ?>
+    <?php foreach($hiterms as $key => $hiterm) : ?>
+        <li>	<input type="checkbox" name="sub_cat[]" checked="" value="">
+            <?php echo $hiterm->name; ?>
+            <?php $loterms = get_terms("product_cat", array("orderby" => "slug", "parent" => $hiterm->term_id)); ?>
+            <?php if($loterms) : ?>
+                <ul>
+                    <?php foreach($loterms as $key => $loterm) : ?>
+                        <li>	<input type="checkbox" name="sub_cat[]" checked="" value=""><?php echo $loterm->name; ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php endif; ?>
+        </li>
+    <?php endforeach; ?>
+</ul>
+									<div class="select-category">
+										<select class="form-control" id="filter_prod_cat">
+										<option value="">All categories</option>
+										<?php 
+											// Product Categories			
+											$terms = get_terms( array(
+												'taxonomy' => 'product_cat',
+												'hide_empty' => true,
+												'parent'   => 0,
+											) );
+											if ( ! empty( $terms ) && ! is_wp_error( $terms ) ){
+									
+												foreach ( $terms as $term ) {
+													echo '<option value="'. $term->slug . '"';
+													
+													if(!empty($_REQUEST['prod_cat'] && $_REQUEST['prod_cat'] ==  $term->slug ) ){
+														echo ' selected ="selected"';
+													}
+													
+													echo '>'. $term->name  .'</option>';
+												
+												}
+											}
+										?>
+									</select>
+									
+									</div>
+								
+								</div>
+
+								<div class="card-body">
+									<div class="select-category sub_cat_checkox">
+										<?php 
+										if(!empty($_REQUEST['prod_cat'] ) ){
+												
+											$selected_prod_cat = get_term_by( 'slug', $_REQUEST['prod_cat'], 'product_cat' );
+											
+											// Product Sub Categories			
+											$sub_terms = get_terms( array(
+												'taxonomy' => 'product_cat',
+												'hide_empty' => true,
+												'parent'   => $selected_prod_cat->term_id,
+											) );
+											if ( ! empty( $sub_terms ) && ! is_wp_error( $sub_terms ) ){
+												echo '<ul class="list-group">';
+												foreach ( $sub_terms as $term ) {	?>
+													<li>
+													<input type="checkbox" name="sub_cat[]" checked="" value="<?php echo $term->slug; ?>">
+													<label for="<?php echo $term->name; ?>"><?php echo $term->name; ?></label> </li>
+													<?php 
+												}										
+												echo '</ul>';
+											}	
+										} ?>
+
+									</div>
 								</div>
 							</div>
 						</div>

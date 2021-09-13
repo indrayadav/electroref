@@ -50,6 +50,7 @@ get_header();
                 // heading
                 $compare_data['prod_cnt'][] = __('<strong>-</strong>', 'electoreftech'); 
                 $compare_data['prod'][] = __('<strong>Products</strong>', 'electoreftech'); 
+                $compare_data['rating'][] = __('<strong>Rating</strong>', 'electoreftech');
                 $compare_data['brand'][] = __('<strong>Brand Name</strong>', 'electoreftech'); 
                 $compare_data['product_type'][] = __('<strong>Product</strong>', 'electoreftech'); 
                 $compare_data['warranty'][] = __('<strong>Warranty</strong>', 'electoreftech'); 
@@ -76,6 +77,9 @@ get_header();
                       $prod .= electoreftech_product_price($product_id);
 
                       $compare_data['prod'][] =  $prod;
+
+                      // Rating
+                      $compare_data['rating'][] = electoreftech_product_rating($product_id);
                       //brand 
                       $terms = get_the_terms( $product_id, 'brand' );
                       if ( $terms && ! is_wp_error( $terms ) ) : 

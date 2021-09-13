@@ -50,9 +50,36 @@
 
   gtag('config', 'UA-31914987-3');
 </script>
+
+
+<!-- Messenger Chat Plugin Code -->
+<div id="fb-root"></div>
+      <script>
+        window.fbAsyncInit = function() {
+          FB.init({
+            xfbml            : true,
+            version          : 'v10.0'
+          });
+        };
+
+        (function(d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) return;
+          js = d.createElement(s); js.id = id;
+          js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+          fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+      </script>
 </head>
 
 <body <?php body_class(); ?>>
+
+<!-- Your Chat Plugin code -->
+<div class="fb-customerchat"
+attribution="page_inbox"
+page_id="1524617864479326">
+</div>
+
 <?php wp_body_open(); ?>
     <!-- Main Wrapper -->
     <div id="main-book-wrapper">
@@ -119,7 +146,7 @@
                 <div class="site-search-form">
                     <button class="btn btn-close" id="search-close"><img src="<?php echo get_template_directory_uri(); ?>/img/close.png"></button>
                     <div class="form-search-box">
-                    <form class="navbar-form" action="<?php echo esc_url( home_url( '/products-air-conditioner-price-nepal/' ) ); ?>" method="get" role="search">
+                    <form id="main_search_form" class="navbar-form" action="<?php echo esc_url( home_url( '/products-air-conditioner-price-nepal/' ) ); ?>" method="get" role="search">
                             <div class="input-group">
                                 <input type="text" name="query"  class="form-control" placeholder="Search...">
                                 <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
@@ -150,12 +177,19 @@
                                 </form>
                             </div>
                             <!-- Main Menus Wrapper -->
+                            <?php 
+                            if ( wp_is_mobile() ) {
+                                $prod_url = '#';
+                            } else{
+                                $prod_url = home_url( '/products-air-conditioner-price-nepal/' );
+                            }
+                            ?>
                             <div class="nav-menus-wrapper">
                                 <div class="navbarmenuleft"><img class="img-fluid" alt="Electroref Tech" src="<?php echo get_template_directory_uri(); ?>/img/electro-ref-techlogo11.png"></div>
                                 <ul class="nav-menu align-to-right">
                                     <li><a href="<?php echo esc_url( home_url( '/about-electro-ref-tech-ac-nepal/' ) ); ?>">About</a></li>
                                     <li><a href="<?php echo esc_url( home_url( '/services-repair-maintenance-kathmandu-nepal/' ) ); ?>">Services</a></li>
-                                    <li><a href="#">Products</a>
+                                    <li><a href="<?php echo $prod_url; ?>">Products</a>
                                     <div class="megamenu-panel">
                                             <?php 
                                                 $prod_cat1 = [];
@@ -164,38 +198,78 @@
                                                 $prod_cat4 = [];
                                                 $cnt = 0;
 
-                                                $terms = get_terms( array(
-                                                    'taxonomy' => 'product_cat',
-                                                    'hide_empty' => true,
-                                                ) );
-                                                if ( ! empty( $terms ) && ! is_wp_error( $terms ) ){
-                                                    foreach ( $terms as $term ) { 
-                                                        $cnt++;
-                                                        $prod_cat_data = [
-                                                            'name' => $term->name,
-                                                            'url' => $brand_url = home_url( '/products-air-conditioner-price-nepal/' ) . '?prod_cat='.  $term->slug,
-                                                        ];
+                                                $result = $wpdb->get_results("select * from " . $wpdb->prefix . "main_categories WHERE 1= 1 order by item_order ASC ");
+                                                if ($result) {
+                                                    $count = 1;
+                                                    $heading = [];
+                                                    foreach ($result as $entry) {
 
-                                                        if($cnt == 2){
-                                                            $prod_cat2[] = $prod_cat_data;
-                                                        } elseif ($cnt == 3){                                                    
-                                                            $prod_cat3[] = $prod_cat_data;
-                                                        } elseif ($cnt == 4){     
-                                                            $prod_cat4[] = $prod_cat_data;
-                                                        }else {  
-                                                            $prod_cat1[] = $prod_cat_data;
+                                                        if(isset($entry->term_ids) && !empty($entry->term_ids)){
+                                                            $terms =  maybe_unserialize($entry->term_ids);
+                                                            $heading[] = '<div class="e_menu_heading"><span>'.$entry->title . '</span></div>';
+                                                           
+                                                            
+                                                            foreach ( $terms as $t_id ) { 
+                                                                
+                                                                $term = get_term( $t_id );
+                                                                $prod_cat_data = [
+                                                                    'name' => $term->name,
+                                                                    'url' => $brand_url = home_url( '/products-air-conditioner-price-nepal/' ) . '?prod_cat='.  $term->slug,
+                                                                ];
+
+                                                                if($count == 1){
+                                                                    $prod_cat1[] = $prod_cat_data;
+                                                                } else if($count == 2 ){
+                                                                    $prod_cat2[] = $prod_cat_data;
+                                                                }else if($count == 3 ){
+                                                                    $prod_cat3[] = $prod_cat_data;
+                                                                }else {
+                                                                    $prod_cat4[] = $prod_cat_data;
+                                                                }
+                                                            }
                                                         }
-
-
-                                                        if($cnt %4 == 0){
-                                                            $cnt = 0;
-                                                        }
+                                                        
+                                                        $count++;
                                                     }
                                                 }
+                                                
+                                               // echo "<pre>";
+                                              //  print_r($prod_cat1);
+                                                
+                                                // $terms = get_terms( array(
+                                                //     'taxonomy' => 'product_cat',
+                                                //     'hide_empty' => true,
+                                                //     'parent'   => 0,
+                                                // ) );
+                                                // if ( ! empty( $terms ) && ! is_wp_error( $terms ) ){
+                                                //     foreach ( $terms as $term ) { 
+                                                //         $cnt++;
+                                                //         $prod_cat_data = [
+                                                //             'name' => $term->name,
+                                                //             'url' => $brand_url = home_url( '/products-air-conditioner-price-nepal/' ) . '?prod_cat='.  $term->slug,
+                                                //         ];
+
+                                                //         if($cnt == 2){
+                                                //             $prod_cat2[] = $prod_cat_data;
+                                                //         } elseif ($cnt == 3){                                                    
+                                                //             $prod_cat3[] = $prod_cat_data;
+                                                //         } elseif ($cnt == 4){     
+                                                //             $prod_cat4[] = $prod_cat_data;
+                                                //         }else {  
+                                                //             $prod_cat1[] = $prod_cat_data;
+                                                //         }
+
+
+                                                //         if($cnt %4 == 0){
+                                                //             $cnt = 0;
+                                                //         }
+                                                //     }
+                                                // }
                                             ?>
                                             <div class="megamenu-lists">
                                                 <?php  if($prod_cat1) {
                                                     echo '<ul class="megamenu-list list-col-4">';
+                                                    echo '<li>'. $heading[0].'</li>';
                                                     foreach($prod_cat1 as $b){
                                                         echo '<li><a href="'. $b['url'] .'">'. $b['name'].'</a></li>';
                                                     }
@@ -205,6 +279,7 @@
                                                 ------------------------- */
                                                 if($prod_cat2) {
                                                     echo '<ul class="megamenu-list list-col-4">';
+                                                    echo '<li>'. $heading[1].'</li>';
                                                     foreach($prod_cat2 as $b){
                                                         echo '<li><a href="'. $b['url'] .'">'. $b['name'].'</a></li>';
                                                     }
@@ -215,6 +290,7 @@
                                                 ------------------------- */
                                                 if($prod_cat3) {
                                                     echo '<ul class="megamenu-list list-col-4">';
+                                                    echo '<li>'. $heading[2].'</li>';
                                                     foreach($prod_cat3 as $b){
                                                         echo '<li><a href="'. $b['url'] .'">'. $b['name'].'</a></li>';
                                                     }
@@ -225,6 +301,7 @@
                                                 ------------------------- */
                                                 if($prod_cat4) {
                                                     echo '<ul class="megamenu-list list-col-4">';
+                                                    echo '<li>'. $heading[3].'</li>';
                                                     foreach($prod_cat4 as $b){
                                                         echo '<li><a href="'. $b['url'] .'">'. $b['name'].'</a></li>';
                                                     }

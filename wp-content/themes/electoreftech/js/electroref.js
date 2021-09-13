@@ -8,8 +8,43 @@
 
         $("#filter_prod_brand").data("placeholder","Select Brand").chosen();
     
-        $("#filter_prod_cat").data("placeholder","Select Category").chosen();
         $("#filter_sort_product").data("placeholder","Sort product").chosen();
+
+        // $('input[type=checkbox][name=prod_cat]').change(function() {
+        //     if ($(this).prop("checked")) {
+        //         $('#filter_prod_cat').val( $(this).val );
+        //     }
+        //     else {
+        //         $('#filter_prod_cat').val( '' );
+        //     }
+        //     alert($(this).val);
+        //     filter_results();
+            
+        // });
+
+        // $('.filter_option_cat label').on('click', function (event) {
+        //    // event.preventDefault();    
+        //    var ele = $(this).closest('.list-group-item').find('input');  
+        //    $(this).closest('.filter_option_cat').find('.list-group-item input').each(function() {
+        //     $(this).attr('checked', false);
+        //    }); 
+            
+
+        //     if(ele.is(':checked')){
+        //         $('#filter_prod_cat').val( '' );
+        //     }else{
+        //         $('#filter_prod_cat').val( ele.val() );
+        //     }
+        //     filter_results();
+
+        // });
+
+        $('.filter_option_cat label').on('click', function (event) {
+            var group = "input:checkbox[name='"+$(this).attr("name")+"']";
+            $(group).attr("checked",false);
+            $(this).attr("checked",true);
+            filter_results();
+        });
 
         FB.init({
             appId: 220198652759638,
@@ -49,6 +84,11 @@
         });
 
     }
+
+    // Main search form
+    $("#main_search_form").on("click", "span.input-group-addon", function() {
+        $( "#main_search_form" ).submit();
+    });
 
     // Add to wishlist
     $(".wishcompareicon").on("click", "a.watchlist", function() {
@@ -139,6 +179,25 @@
             return false;
         });
 
+    // Choose rating
+    $(".choose_rating").on("click", "ul li a", function() {
+        var veiw_wrap = $(this).closest('.choose_rating');
+        var rating = $(this).attr( "title" ); 
+        $('#post_rating').val(rating);
+        veiw_wrap.find( "ul li a i" ).each(function( index ) {
+            index = index + 1;
+            $( this ).removeClass('fa-star');
+            $( this ).removeClass('fa-star-o');
+
+            if(index <= rating){
+                $( this ).addClass('fa-star');  
+            } else{
+                $( this ).addClass('fa-star-o');
+            }
+          });
+
+    });    
+
     // Toggle Nav
     $(".cate_lists").on("click", "span.btn_toggle a", function() {
         var veiw_wrap = $(this).closest('.cate_lists');
@@ -163,10 +222,6 @@
 
   /*Filter Sort listing  */
    $("#text_search").click(function() {
-        filter_results();
-    });
-
-    $('#filter_prod_cat').on("change", function() {
         filter_results();
     });
 
@@ -281,10 +336,127 @@
         return false;
     
     }  
-    
 
+
+    // Add product review
+    $("#frm_review").validate({
+        rules: {
+            review: {
+                required: true
+            },
+        },
+        messages: {
+            review: {
+                required: "Review must be filled.",
+            },
+        },
+        submitHandler: function() {
+            var review = ($('textarea#review').length) ? $('textarea#review').val() : '';
+            var post_id = ($('#post_id').length) ? $('#post_id').val() : '';
+            var post_rating = ($('#post_rating').length) ? $('#post_rating').val() : '';
+
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: electroref_params.admin_ajax_url,
+                data: {
+                    'action': 'electoreftech_save_review',
+                    'review': review,
+                    'post_id': post_id,
+                    'post_rating': post_rating
+                },
+
+                success: function(data) {
+                    $('#review_sent_msg').html(data.msg);
+                    $('#review_sent_msg').removeClass('alert-warning');
+                    $('#review_sent_msg').addClass('alert-success');
+                    $('#review_sent_msg').addClass('alert');
+                    $('#review_sent_msg').css('margin-top', '20px');
+                    $('#frm_review')[0].reset();
+                    return false;
+                }
+            });
+
+            return false;
+        }
+
+    });
+    
+    // Request Product Quote Form
+    $("#booknowModal").on("click", ".btn_request_quote", function() {
+        var cust_name = ($('#cust_name').length) ? $('#cust_name').val() : '';
+        var cust_email = ($('#cust_email').length) ? $('#cust_email').val() : '';
+        var cust_phone = ($('#cust_phone').length) ? $('#cust_phone').val() : '';
+        var product_id = ($('#product_id').length) ? $('#product_id').val() : '';
+        var cust_msg = ($('textarea#cust_msg').length) ? $('textarea#cust_msg').val() : '';
+
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: electroref_params.admin_ajax_url,
+            data: {
+                'action': 'electoreftech_request_quote',
+                'cust_name': cust_name,
+                'cust_email': cust_email,
+                'cust_phone': cust_phone,
+                'cust_msg': cust_msg,
+                'product_id': product_id
+            },
+
+            success: function(data) {
+                $('#request_sent_msg').html(data.msg);
+                $('#request_sent_msg').removeClass('alert-warning');
+                $('#request_sent_msg').addClass('alert-success');
+                $('#request_sent_msg').addClass('alert');
+                $('#request_sent_msg').css('margin-top', '20px');
+                if(data.status == 'success'){
+                    $('#frm_request_quote')[0].reset();
+                }
+                
+                return false;
+            }
+        });
+
+        return false;
+    });
+
+
+    $(document).ready(function() {
+        $(".set > a").on("click", function() {
+          if ($(this).hasClass("active")) {
+            $(this).removeClass("active");
+            $(this)
+              .siblings(".content")
+              .slideUp(200);
+            $(".set > a i")
+              .removeClass("fa-minus")
+              .addClass("fa-plus");
+          } else {
+            $(".set > a i")
+              .removeClass("fa-minus")
+              .addClass("fa-plus");
+            $(this)
+              .find("i")
+              .removeClass("fa-plus")
+              .addClass("fa-minus");
+            $(".set > a").removeClass("active");
+            $(this).addClass("active");
+            $(".content").slideUp(200);
+            $(this)
+              .siblings(".content")
+              .slideDown(200);
+          }
+        });
+
+        if ($(".ch_open").length > 0) {
+             $('.ch_open').click();
+        }
+      });
+      
 
 })(jQuery);	
+
+
 
 
 function postToFeed(url, picture, fb_title, fb_description) {

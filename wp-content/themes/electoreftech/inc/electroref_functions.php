@@ -211,7 +211,7 @@ if ( ! function_exists( 'electoreftech_price' ) ) {
 	function electoreftech_price($price = '') {
         $price_format = '';
         if(!empty($price )){
-            $price_format = 'NRs '.number_format($price ,2);
+            $price_format = 'NPR '.number_format($price ,2);
         }
 
         return $price_format;
@@ -225,13 +225,23 @@ if ( ! function_exists( 'electoreftech_product_price' ) ) {
         $product_sale_price = get_post_meta($post_id, 'product_sale_price', true);
         
         if(!empty($product_sale_price )){
-            $price_format .= '<div class="priceproddel">';
-            $price_format .= 'NRs '.number_format($product_sale_price ,2);
-            $price_format .= '<span>NRs '.number_format($product_price ,2) .'</span>';
+            $price_format .= '<div class="priceproddel" itemprop="offers" itemtype="http://schema.org/Offer" itemscope>';
+            $price_format .= 'NPR '.number_format($product_sale_price ,2);
+            $price_format .= '<span>NPR '.number_format($product_price ,2) .'</span>';
+            $price_format .= '<meta itemprop="price" content="'. str_replace( ',', '', number_format($product_price ,2) ) .'" />';
+            $price_format .= '<link itemprop="url" href="'. get_permalink($post_id).'" />
+            <meta itemprop="availability" content="https://schema.org/InStock" />
+            <meta itemprop="priceCurrency" content="NPR" />
+            <meta itemprop="priceValidUntil" content="2021-11-20" />';
             $price_format .= '</div>';
         } else{
-            $price_format .= '<div class="priceproddel">';
-            $price_format .= ' NRs '.number_format($product_price ,2);
+            $price_format .= '<div class="priceproddel" itemprop="offers" itemtype="http://schema.org/Offer" itemscope>';
+            $price_format .= 'NPR '.number_format($product_price ,2);
+            $price_format .= '<meta itemprop="price" content="'. str_replace( ',', '', number_format($product_price ,2)) .'" />';
+            $price_format .= '<link itemprop="url" href="'. get_permalink($post_id).'" />
+              <meta itemprop="availability" content="https://schema.org/InStock" />
+              <meta itemprop="priceCurrency" content="NPR" />
+              <meta itemprop="priceValidUntil" content="2021-11-20" />';
             $price_format .= '</div>';
         }
 
@@ -268,6 +278,7 @@ if ( ! function_exists( 'electro_filter_product' ) ) {
             $args['meta_key'] = $filter_sort_product[0];
             $args['order'] = $filter_sort_product[1];
             $args['orderby'] = 'meta_value_num'; 
+            $args['meta_type'] = 'NUMERIC';
        }
 
        if(isset($_POST['query']) && !empty($_POST['query'])){
@@ -322,9 +333,9 @@ if ( ! function_exists( 'electro_filter_product' ) ) {
         }
        
       
-        //   echo '<pre>';
-        //   print_r($args);
-        //   echo '</pre>';
+          // echo '<pre>';
+          // print_r($args);
+          // echo '</pre>';
 
        $cabinpost = new WP_Query( $args );
        $total_record = $cabinpost->found_posts;
@@ -452,9 +463,11 @@ add_action( 'admin_enqueue_scripts', 'hytteguiden_admin_script' );
 if ( ! function_exists( 'electoreftech_product_rating' ) ) {
 	function electoreftech_product_rating($post_id) {
         $content = '';
+        return '';
 
-        $content .= '<div class="prodrating">
-        <ul>
+        $content .= '<div class="prodrating" itemprop="aggregateRating" itemscope="" itemtype="http://schema.org/AggregateRating">
+        <ul>  <span style="display:none;" itemprop="ratingValue">5</span>
+              <span style="display:none;"  itemprop="ratingCount">123</span>
             <li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
             <li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
             <li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
@@ -505,6 +518,25 @@ function electoreftech_set_post_view($post_id) {
     update_post_meta( $post_id, $key, $count );
 }
 
+  /* Get rating star from number */
+
+    function electoreftech_get_product_brand($post_id) { 
+      $content = ''; 
+     $terms = get_the_terms( $post_id, 'brand' );
+      if ( $terms && ! is_wp_error( $terms ) ) : 
+
+        $brands = array();
+        foreach ( $terms as $term ) {
+          $brands[] = $term->name;
+        }
+                   
+        $content = join( ", ", $brands );
+      endif;
+  
+      return $content; 
+    } 
+
+
 /* Electtrroref General functions
 ===========================================  */
 function electoreftech_record_count( $tbl_name, $cond = '') {
@@ -549,6 +581,19 @@ function electoreftech_all_data( $tbl_name, $cond = '', $per_page = 5, $page_num
     return $result;
   }
 
+  function electoreftech_delete_record( $tbl_name, $pk_field = 'id', $pk_val = '') {
+    global $wpdb;
+  
+    $sql = 'delete from ' . $wpdb->prefix . $tbl_name . ' WHERE '. $pk_field.'= '. $pk_val; 
+    $wpdb->query($sql);
+  }
+
+  function electoreftech_update_field( $tbl_name, $update_field, $update_val, $pk_field = 'id', $pk_val = '') {
+    global $wpdb;
+  
+    $sql = 'update ' . $wpdb->prefix . $tbl_name . ' SET '. $update_field.' = "'. $update_val .'" WHERE '. $pk_field.'= '. $pk_val; 
+    $wpdb->query($sql);
+  }
 
 /* Electtrroref Theme activation hook
 ................................................. */
@@ -574,12 +619,41 @@ if ( ! function_exists( 'electoreftech_create_dynamic_table' ) ) {
 
    dbDelta($sql_compare);
 
+   $sql_reviews = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."reviews` ( `id` bigint(20) not null auto_increment,
+   `post_id` int(10) not null,
+   `user_id` varchar(100) not null,
+   `rating` varchar(30) not null, 
+   `review` text,
+   `status` ENUM('Pending', 'Published'),
+   `added_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY  (`id`));";
+
+  dbDelta($sql_reviews);
+
+  $sql_request_quote = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."request_quotes` ( `id` bigint(20) not null auto_increment,
+  `post_id` int(11) not null,
+  `cust_name` varchar(100) not null,
+  `cust_email` varchar(130) not null, 
+  `cust_phone` varchar(130) not null, 
+  `cust_msg` text,
+  `status` ENUM('Requested', 'Sent'),
+  `added_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY  (`id`));";
+
+ dbDelta($sql_request_quote);
+
+     // Main Categgories
+     $sql_main_categories = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."main_categories` ( `id` bigint(20) not null auto_increment, 
+     `title` varchar(240) not null,
+     `term_ids` text,
+     `item_order` int(11), PRIMARY KEY  (`id`));";
+ 
+     dbDelta($sql_main_categories);
+
     }
 }
 add_action('after_switch_theme', 'electoreftech_create_dynamic_table');
 
 
-/* Electoreftech Theme initialization
+/* Electoreftech Theme initialization 
 ................................................. */
 /* Random Key Generate */
 if ( ! function_exists( 'electoreftech_random_keygen' ) ) {
@@ -645,8 +719,8 @@ if ( ! function_exists( 'electoreftech_watchcompare' ) ) {
         $content = '';
         $content .= '<div class="addtocompare"><ul><li><div class="wishcompareicon">';
         $content .= '<input type="hidden" class="post_id" value="'. $post_id .'" >';
-        $content .= '<span><a href="javascript:void(null)" class="comparelist">'. electoreftech_compare_status($post_id) .'</a></span>';
-        $content .= '<span><a href="javascript:void(null)" class="watchlist">'. electoreftech_wishlist_status($post_id) .'</a></span>';
+        $content .= '<span><a href="javascript:void(null)" class="comparelist" title="Compare">'. electoreftech_compare_status($post_id) .'</a></span>';
+        $content .= '<span><a href="javascript:void(null)" class="watchlist" title="Watchlist">'. electoreftech_wishlist_status($post_id) .'</a></span>';
         $content .= '</div></li> </ul> </div>';
 
         return $content;
@@ -842,4 +916,105 @@ if ( ! function_exists( 'electoreftech_compare_total' ) ) {
   add_action( 'wp_ajax_electoreftech_save_comparelist', 'electoreftech_save_comparelist');
   add_action( 'wp_ajax_nopriv_electoreftech_save_comparelist', 'electoreftech_save_comparelist');
 
+
+  /* Add review ---------------------------*/
+  if ( ! function_exists( 'electoreftech_save_review' ) ) {
+    function electoreftech_save_review() {
+      global $wpdb;
+      $response_arr 	= array();
+      $response_arr['msg'] = __("Your review hasn't been posted, Please try later!.", 'electoreftech');
+
+      if(is_user_logged_in()){
+        $current_user = wp_get_current_user(); 
+
+        $insert_data =  array(
+          'review' => $_POST['review'],
+          'post_id' => $_POST['post_id'],
+          'rating' => $_POST['post_rating'],
+          'status' => 'Pending',
+          'user_id' => $current_user->ID,
+         );
+
+        $wpdb->insert($wpdb->prefix.'reviews', $insert_data );
+
+        $response_arr['msg'] = __('Your review has been posted, we will shortly verify to publish it.', 'electoreftech');
+      }
+
+      echo json_encode($response_arr);
+      exit;
+
+    }
+  }
+  add_action( 'wp_ajax_electoreftech_save_review', 'electoreftech_save_review');
+  add_action( 'wp_ajax_nopriv_electoreftech_save_review', 'electoreftech_save_review');
+
+  /* Get rating star from number */
+if ( ! function_exists( 'electoreftech_rating_star' ) ) {
+  function electoreftech_rating_star($n = 5) { 
+    $content = '<div class="ratingwrap">'; 
+
+    for ($i = 1; $i <= 5; $i++) { 
+      $rating_class = ($i <= $n ? 'fa fa-star' : 'fa fa-star-o');
+      $content .= '<span><a href="#"><i class="'.$rating_class .'" aria-hidden="true"></i></a></span>';
+    } 
+
+    $content .= '</div>';
+
+    return $content; 
+  } 
+}
+
+  /* Request Quote ---------------------------*/
+  if ( ! function_exists( 'electoreftech_request_quote' ) ) {
+    function electoreftech_request_quote() {
+      global $wpdb;
+      $error = [];
+      $valid_email;
+      $response_arr 	= array('status' => 'error');      
+
+      if(!($_POST['cust_name']) || empty($_POST['cust_name'])){
+        $error[] = 'Name';
+      }
+      if(!($_POST['cust_email']) || empty($_POST['cust_email'])){
+        $error[] = 'Email';
+      }
+
+      if (!filter_var($_POST['cust_email'], FILTER_VALIDATE_EMAIL)) {
+        $valid_email = ' Email must be valid.';
+      }
+
+      if(!($_POST['cust_phone']) || empty($_POST['cust_phone'])){
+        $error[] = 'Phone';
+      }
+
+      if(!($_POST['cust_msg']) || empty($_POST['cust_msg'])){
+        $error[] = 'Message';
+      }
+
+      if(!empty($error)){
+        $response_arr['msg'] = implode(", ",$error) . " must be filled out." . $valid_email;
+      } else {
+
+        $insert_data =  array(
+          'cust_name' => $_POST['cust_name'],
+          'cust_email' => $_POST['cust_email'],
+          'cust_phone' => $_POST['cust_phone'],
+          'post_id' => $_POST['product_id'],
+          'cust_msg' => $_POST['cust_msg'],
+          'status' => 'Requested',
+         );
+
+        $wpdb->insert($wpdb->prefix.'request_quotes', $insert_data );
+
+        $response_arr['status'] = 'success';
+        $response_arr['msg'] = __('Your request has been posted, we will shortly reply you.', 'electoreftech');
+      }
+
+      echo json_encode($response_arr);
+      exit;
+
+    }
+  }
+  add_action( 'wp_ajax_electoreftech_request_quote', 'electoreftech_request_quote');
+  add_action( 'wp_ajax_nopriv_electoreftech_request_quote', 'electoreftech_request_quote');
 ?>
